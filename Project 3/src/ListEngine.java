@@ -2,8 +2,7 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
 
-class ListEnginew extends AbstractTableModel implements TableModel{
-    private ArrayList<Auto> listAutos;
+public class ListEnginew extends AbstractTableModel implements TableModel{private ArrayList<Auto> listAutos;
 
     private String[] columnNamesBought = {"Auto Name", "Bought Cost", "Bought Date", "Trim Package ", "Four by Four", "Turbo"};
     public ListEnginew() {
