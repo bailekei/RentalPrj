@@ -9,17 +9,40 @@ import java.util.GregorianCalendar;
 
 public class BoughtCarDialog extends JDialog implements ActionListener {
 
+    /** */
     private JTextField txtName;
+
+    /** */
     private JTextField txtDate;
+
+    /** */
     private JTextField txtTrimPackage;
+
+    /** */
     private JTextField txtFourbyFour;
+
+    /** */
     private JTextField txtCost;
+
+    /** */
     private JButton okButton;
+
+    /** */
     private JButton cancelButton;
+
+    /** */
     private JComboBox<String> combobox;
+
+    /** */
     private int closeStatus;
+
+    /** */
     private Auto auto;
+
+    /** */
     static final int OK = 0;
+
+    /** */
     static final int CANCEL = 1;
 
     /*********************************************************

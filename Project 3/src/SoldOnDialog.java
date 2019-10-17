@@ -7,7 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-public class soldOnDialog extends JDialog implements ActionListener {
+public class SoldOnDialog extends JDialog implements ActionListener {
 
     private JTextField txtName;
     private JTextField txtDate;
@@ -28,7 +28,7 @@ public class soldOnDialog extends JDialog implements ActionListener {
      @param auto an instantiated object to be filled with data
      *********************************************************/
 
-    public soldOnDialog(JFrame parent, Auto auto) {
+    public SoldOnDialog(JFrame parent, Auto auto) {
         // call parent and create a 'modal' dialog
         super(parent, true);
 
@@ -111,4 +111,3 @@ public class soldOnDialog extends JDialog implements ActionListener {
     }
 
 }
-
