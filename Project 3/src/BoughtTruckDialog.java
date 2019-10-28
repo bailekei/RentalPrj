@@ -7,42 +7,50 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+/***********************************************************************************************************************
+ * CIS 162 Project 3
+ *BoughtTruckDialog class that extends JDialog and implements ActionListener
+ *Creates textfields that allows the user to enter to enter information on the truck details
+ *
+ * @author Keilani Bailey and Shayla Hinkley
+ * @version Project 3: October 20th, 2019
+ **********************************************************************************************************************/
 public class BoughtTruckDialog extends JDialog implements ActionListener{
 
-    /** */
+    /** instance variable for the text field of the name of the auto */
     private JTextField txtName;
 
-    /** */
+    /** instance variable for the text field of the date */
     private JTextField txtDate;
 
-    /** */
+    /** instance variable for the text field of the trim package */
     private JTextField txtTrimPackage;
 
-    /** */
+    /** instance variable for the text field of the four by four if the auto is a truck */
     private JTextField txtFourbyFour;
 
-    /** */
+    /** instance variable for the text field of the cost of the auto */
     private JTextField txtCost;
 
-    /** */
+    /** instance variable for the ok button */
     private JButton okButton;
 
-    /** */
+    /** instance variable for the cancel button  */
     private JButton cancelButton;
 
-    /** */
+    /** instance variable for the combo box */
     private JComboBox<String> combobox;
 
-    /** */
+    /** instance variable for the status closed */
     private int closeStatus;
 
-    /** */
+    /** instance variable for the auto type */
     private Auto auto;
 
-    /** */
+    //final int for OK
     static final int OK = 0;
 
-    /** */
+    //final int for CANCEL
     static final int CANCEL = 1;
 
     /*********************************************************
@@ -79,6 +87,7 @@ public class BoughtTruckDialog extends JDialog implements ActionListener{
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new GridLayout(7,2));
 
+        //adding JLabels and JButtons
         textPanel.add(new JLabel(""));
         textPanel.add(combobox);
         textPanel.add(new JLabel(""));

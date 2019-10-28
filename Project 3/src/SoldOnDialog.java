@@ -6,18 +6,40 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
-
+/***********************************************************************************************************************
+ * CIS 162 Project 3
+ * SoldOnDialog class that extends JDialog and implements ActionListener
+ *
+ * @author Keilani Bailey and Shayla Hinkley
+ * @version Project 3: October 20th, 2019
+ **********************************************************************************************************************/
 public class SoldOnDialog extends JDialog implements ActionListener {
 
+    /** instance variable for the text field of the name of the auto */
     private JTextField txtName;
+
+    /** instance variable for the text field of the date */
     private JTextField txtDate;
+
+    /** instance variable for the text field of the cost of the auto */
     private JTextField txtCost;
 
+    /** instance variable for the ok button */
     private JButton okButton;
+
+    /** instance variable for the cancel button  */
     private JButton cancelButton;
+
+    /** instance variable for the status closed */
     private int closeStatus;
+
+    /** instance variable for the auto type */
     private Auto auto;
+
+    //final int for OK
     static final int OK = 0;
+
+    //final int for CANCEL
     static final int CANCEL = 1;
 
     /*********************************************************

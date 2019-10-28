@@ -1,8 +1,17 @@
 import javax.swing.event.TableModelListener;
 import javax.swing.table.TableModel;
 import java.util.ArrayList;
+/***********************************************************************************************************************
+ * CIS 162 Project 3
+ * ListEngine class that extendds AbstractTableModel and implements TableModel
+ *
+ * @author Keilani Bailey and Shayla Hinkley
+ * @version Project 3: October 20th, 2019
+ **********************************************************************************************************************/
+public class ListEngine extends AbstractTableModel implements TableModel {
 
-public class ListEngine extends AbstractTableModel implements TableModel{private ArrayList<Auto> listAutos;
+    /** */
+    private ArrayList<Auto> listAutos;
 
     /**  */
     private String[] columnNamesBought = {"Auto Name", "Bought Cost", "Bought Date", "Trim Package ", "Four by Four", "Turbo"};

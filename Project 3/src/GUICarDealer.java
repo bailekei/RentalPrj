@@ -2,12 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-/*****************************************************************
- *
+/***********************************************************************************************************************
+ * CIS 162 Project 3
+ * GUICarDealer extends JFrame and implements ActionListener
  * Maintains the GUI1024 for the red box rental store
  *
- *****************************************************************/
+ * @author Keilani Bailey and Shayla Hinkley
+ * @version Project 3: October 20th, 2019
+ **********************************************************************************************************************/
+
 public class GUICarDealer extends JFrame implements ActionListener{
     /** Holds menu bar */
     private JMenuBar menus;

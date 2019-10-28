@@ -1,6 +1,12 @@
 import java.io.Serializable;
 import java.util.GregorianCalendar;
-
+/***********************************************************************************************************************
+ * CIS 162 Project 3
+ * Auto class that sets different aspects of the automobile
+ *
+ * @author Keilani Bailey and Shayla Hinkley
+ * @version Project 3: October 20th, 2019
+ **********************************************************************************************************************/
 public abstract class Auto implements Serializable {
 
     /** unique identifier used in deserialization of object to ensure that loaded class is
@@ -51,6 +57,7 @@ public abstract class Auto implements Serializable {
      * @return serialVersionUID type long - identifier used in the deserialization of the object
      ****************************************************************************************************************/
     public static long getSerialVersionUID() {
+
         return serialVersionUID;
     }
 
