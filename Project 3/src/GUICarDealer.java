@@ -51,8 +51,8 @@ public class GUICarDealer extends JFrame implements ActionListener{
      *
      *****************************************************************/
     public GUICarDealer(){
-        //adding menu bar and menu items
 
+        //adding menu bar and menu items
         menus = new JMenuBar();
         fileMenu = new JMenu("File");
         actionMenu = new JMenu("Action");
