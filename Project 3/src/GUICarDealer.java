@@ -2,12 +2,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-/*****************************************************************
- *
+import javax.swing.table.DefaultTableCellRenderer;
+/***********************************************************************************************************************
+ * CIS 162 Project 3
+ * GUICarDealer extends JFrame and implements ActionListener
  * Maintains the GUI1024 for the red box rental store
  *
- *****************************************************************/
+ * @author Keilani Bailey and Shayla Hinkley
+ * @version Project 3: October 20th, 2019
+ **********************************************************************************************************************/
+
 public class GUICarDealer extends JFrame implements ActionListener{
     /** Holds menu bar */
     private JMenuBar menus;
@@ -23,11 +27,16 @@ public class GUICarDealer extends JFrame implements ActionListener{
     private JMenuItem saveTextItem;
     private JMenuItem boughtCarItem;
     private JMenuItem boughtTruckItem;
+    private JMenuItem saveSerText;
+    private JMenuItem openSerText;
+    private JMenuItem boughtScreen;
+    private JMenuItem soldScreen;
+    private JMenuItem overdueScreen;
 
     private JMenuItem soldItem;
 
     /** Holds the list engine */
-    private ListEnginew DList;
+    private ListEngine DList;
     private JPanel panel;
 
     /** Holds JListArea */
@@ -50,6 +59,11 @@ public class GUICarDealer extends JFrame implements ActionListener{
         openSerItem = new JMenuItem("Open File");
         exitItem = new JMenuItem("Exit");
         saveSerItem = new JMenuItem("Save File");
+        saveSerText = new JMenuItem("Save Text");
+        openSerText = new JMenuItem("Open Text");
+        boughtScreen = new JMenuItem("Bought Screen");
+        soldScreen = new JMenuItem("Sold Screen");
+        overdueScreen = new JMenuItem("30 Days overDue Screen");
         boughtTruckItem = new JMenuItem("Bought a Truck");
 
         soldItem = new JMenuItem("Sold Car or Truck");
@@ -57,7 +71,15 @@ public class GUICarDealer extends JFrame implements ActionListener{
         //adding items to bar
         fileMenu.add(openSerItem);
         fileMenu.add(saveSerItem);
+        fileMenu.addSeparator();
+        fileMenu.add(openSerText);
+        fileMenu.add(saveSerText);
+        fileMenu.addSeparator();
         fileMenu.add(exitItem);
+        fileMenu.addSeparator();
+        fileMenu.add(boughtScreen);
+        fileMenu.add(soldScreen);
+        fileMenu.add(overdueScreen);
         actionMenu.add(boughtTruckItem);
 
         actionMenu.add(soldItem);
@@ -71,13 +93,19 @@ public class GUICarDealer extends JFrame implements ActionListener{
         exitItem.addActionListener(this);
         boughtTruckItem.addActionListener(this);
         soldItem.addActionListener(this);
+        saveSerText.addActionListener(this);
+        openSerText.addActionListener(this);
+        boughtScreen.addActionListener(this);
+        soldScreen.addActionListener(this);
+        overdueScreen.addActionListener(this);
 
         setJMenuBar(menus);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
         panel = new JPanel();
-        DList = new ListEnginew();
+        DList = new ListEngine();
         jListArea = new JTable(DList);
+        //jListArea.setDefaultRenderer(Object.class, new BorderColorRenderer());
         JScrollPane scrollList = new JScrollPane(jListArea);
         scrollList.setPreferredSize(new Dimension(800,300));
         panel.add(scrollList);
