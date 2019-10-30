@@ -12,7 +12,8 @@ import javax.swing.table.DefaultTableCellRenderer;
  * @version Project 3: October 20th, 2019
  **********************************************************************************************************************/
 
-public class GUICarDealer extends JFrame implements ActionListener{
+public class GUICarDealer extends JFrame implements ActionListener
+{
     /** Holds menu bar */
     private JMenuBar menus;
 
@@ -122,6 +123,7 @@ public class GUICarDealer extends JFrame implements ActionListener{
      *
      * @param e - Holds the action event parameter
      *****************************************************************/
+
     public void actionPerformed(ActionEvent e) {
 
         Object comp = e.getSource();
