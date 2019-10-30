@@ -1,167 +1,102 @@
-//import javax.swing.event.TableModelListener;
-//import javax.swing.table.TableModel;
-//import java.util.ArrayList;
-///***********************************************************************************************************************
-// * CIS 162 Project 3
-// * ListEngine class that extendds AbstractTableModel and implements TableModel
-// *
-// * @author Keilani Bailey and Shayla Hinkley
-// * @version Project 3: October 20th, 2019
-// **********************************************************************************************************************/
-//public class ListEngine implements TableModel {
-//
-//    /** */
-//    private ArrayList<Auto> listAutos;
-//
-//    /**  */
-//    private String[] columnNamesBought = {"Auto Name", "Bought Cost", "Bought Date", "Trim Package ", "Four by Four", "Turbo"};
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    public ListEngine() {
-//
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public int getRowCount() {
-//        return 0;
-//    }
-//
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public int getColumnCount() {
-//        return 0;
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public String getColumnName(int i) {
-//        return null;
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public Class<?> getColumnClass(int i) {
-//        return null;
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public boolean isCellEditable(int i, int i1) {
-//        return false;
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public Object getValueAt(int i, int i1) {
-//        return null;
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public void setValueAt(Object o, int i, int i1) {
-//
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public void addTableModelListener(TableModelListener tableModelListener) {
-//
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public void removeTableModelListener(TableModelListener tableModelListener){
-//
-//    }
-//
-//}
-        import javax.swing.*;
-        import javax.swing.table.AbstractTableModel;
-        import java.io.*;
-        import java.text.DateFormat;
-        import java.text.ParseException;
-        import java.text.SimpleDateFormat;
-        import java.util.ArrayList;
-        import java.util.Date;
-        import java.util.GregorianCalendar;
-
+import javax.swing.*;
+import javax.swing.table.AbstractTableModel;
+import java.io.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+/***********************************************************************************************************************
+ * CIS 162 Project 3
+ * ListEngine class that extendds AbstractTableModel and implements TableModel
+ *
+ * @author Keilani Bailey and Shayla Hinkley
+ * @version Project 3: October 20th, 2019
+ **********************************************************************************************************************/
 public class ListEngine extends AbstractTableModel {
 
+    /** */
     private ArrayList<Auto> listAutos;
 
+    /**  */
     private String[] columnNamesBought = {"Auto Name", "Bought Cost",
             "Bought Date", "Trim Package ", "Four by Four", "Turbo"};
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     @Override
     public String getColumnName(int col) {
         return columnNamesBought[col];
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public ListEngine() {
         super();
         listAutos = new ArrayList<Auto>();
         createList();
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public Auto remove(int i) {
         return null;
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public void add(Auto a) {
         listAutos.add(a);
         fireTableDataChanged();
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public Auto get(int i) {
         return listAutos.get(i);
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public int getSize() {
         return listAutos.size();
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     @Override
     public int getRowCount() {
         return listAutos.size();
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     @Override
     public int getColumnCount() {
         return columnNamesBought.length;
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     @Override
     public Object getValueAt(int row, int col) {
         switch (col) {
@@ -197,6 +132,10 @@ public class ListEngine extends AbstractTableModel {
         }
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public void saveDatabase(String filename) {
         try {
             FileOutputStream fos = new FileOutputStream(filename);
@@ -209,6 +148,10 @@ public class ListEngine extends AbstractTableModel {
         }
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public void loadDatabase(String filename) {
         try {
             FileInputStream fis = new FileInputStream(filename);
@@ -222,30 +165,34 @@ public class ListEngine extends AbstractTableModel {
         }
     }
 
-    /*****************************************************************
+    /****************************************************************************************************************
      * The following code is half baked code. It should help you
      * understand how to save to a text file.
      *
      * @param filename Name of the file where the data is being loaded from
-     */
+     ****************************************************************************************************************/
     public boolean saveAsText(String filename) {
         return false;
 
     }
 
-    /*****************************************************************
+    /****************************************************************************************************************
      * The following code is half baked code. It should help you
      * understand how to load to a text file.  THis code does NOT
      * function correctyly but, should give you a great start to
      * your code.
      *
      * @param filename Name of the file where the data is being stored in
-     */
+     *****************************************************************************************************************/
     public void loadFromText(String filename) {
         listAutos.clear();
 
     }
 
+    /****************************************************************************************************************
+     *
+     *
+     ****************************************************************************************************************/
     public void createList() {
 
         // This code has been provided to get you started on the project.
@@ -292,55 +239,100 @@ public class ListEngine extends AbstractTableModel {
 
     }
 
-/*
-
-   Here is the instructor's test data.  This will be the starting point for project
-   demonstration day.
-
-
- SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        GregorianCalendar temp1 = new GregorianCalendar();
-        GregorianCalendar temp2 = new GregorianCalendar();
-        GregorianCalendar temp3 = new GregorianCalendar();
-        GregorianCalendar temp4 = new GregorianCalendar();
-        GregorianCalendar temp5 = new GregorianCalendar();
-        GregorianCalendar temp6 = new GregorianCalendar();
-
-        try {
-            Date d1 = df.parse("3/20/2019");
-            temp1.setTime(d1);
-            Date d2 = df.parse("9/20/2019");
-            temp2.setTime(d2);
-            Date d3 = df.parse("12/20/2018");
-            temp3.setTime(d3);
-            Date d4 = df.parse("9/20/2019");
-            temp4.setTime(d4);
-            Date d5 = df.parse("1/20/2010");
-            temp5.setTime(d5);
-            Date d6 = df.parse("10/20/2019");
-            temp6.setTime(d6);
-
-
-            Car Car1 = new Car (temp1, "Outback", 18000,"LX", false);
-            Car Car2 = new Car (temp2, "Chevy", 11000,"EX", false);
-            Car Car3 = new Car (temp3, "Focus", 19000,"EX", true);
-            Truck Truck1 = new Truck(temp4,"F150",12000,"Tow",false);
-            Truck Truck2 = new Truck(temp5,"F250",42000,"NA",false);
-            Truck Truck3 = new Truck(temp1,"F350",2000,"Turbo",true);
-
-            add(Car1);
-            add(Car2);
-            add(Car3);
-            add(Truck1);
-            add(Truck2);
-            add(Truck3);
-
-
-        } catch (ParseException e) {
-            throw new RuntimeException("Error in testing, creation of list");
-        }
-
-    }
-
- */
+///*
+//
+//   Here is the instructor's test data.  This will be the starting point for project
+//   demonstration day.
+//
+//
+// SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+//        GregorianCalendar temp1 = new GregorianCalendar();
+//        GregorianCalendar temp2 = new GregorianCalendar();
+//        GregorianCalendar temp3 = new GregorianCalendar();
+//        GregorianCalendar temp4 = new GregorianCalendar();
+//        GregorianCalendar temp5 = new GregorianCalendar();
+//        GregorianCalendar temp6 = new GregorianCalendar();
+//
+//        try {
+//            Date d1 = df.parse("3/20/2019");
+//            temp1.setTime(d1);
+//            Date d2 = df.parse("9/20/2019");
+//            temp2.setTime(d2);
+//            Date d3 = df.parse("12/20/2018");
+//            temp3.setTime(d3);
+//            Date d4 = df.parse("9/20/2019");
+//            temp4.setTime(d4);
+//            Date d5 = df.parse("1/20/2010");
+//            temp5.setTime(d5);
+//            Date d6 = df.parse("10/20/2019");
+//            temp6.setTime(d6);
+//
+//
+//            Car Car1 = new Car (temp1, "Outback", 18000,"LX", false);
+//            Car Car2 = new Car (temp2, "Chevy", 11000,"EX", false);
+//            Car Car3 = new Car (temp3, "Focus", 19000,"EX", true);
+//            Truck Truck1 = new Truck(temp4,"F150",12000,"Tow",false);
+//            Truck Truck2 = new Truck(temp5,"F250",42000,"NA",false);
+//            Truck Truck3 = new Truck(temp1,"F350",2000,"Turbo",true);
+//
+//            add(Car1);
+//            add(Car2);
+//            add(Car3);
+//            add(Truck1);
+//            add(Truck2);
+//            add(Truck3);
+//
+//
+//        } catch (ParseException e) {
+//            throw new RuntimeException("Error in testing, creation of list");
+//        }
+//
+//    }
+//
+//
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public Class<?> getColumnClass(int i) {
+//        return null;
+//    }
+//
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public boolean isCellEditable(int i, int i1) {
+//        return false;
+//    }
+//
+//
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public void setValueAt(Object o, int i, int i1) {
+//
+//    }
+//
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public void addTableModelListener(TableModelListener tableModelListener) {
+//
+//    }
+//
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public void removeTableModelListener(TableModelListener tableModelListener){
+//
+//    }
 }
