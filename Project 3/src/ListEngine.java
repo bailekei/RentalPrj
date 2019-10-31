@@ -7,6 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /***********************************************************************************************************************
  * CIS 162 Project 3
  * ListEngine class that extendds AbstractTableModel and implements TableModel
@@ -16,12 +19,32 @@ import java.util.GregorianCalendar;
  **********************************************************************************************************************/
 public class ListEngine extends AbstractTableModel {
 
-    /** */
+    /** master array list that holds all the autos */
     private ArrayList<Auto> listAutos;
+
+    /** temporary array list that holds data needed for the GUI */
+    private ArrayList<Auto> tempList;
 
     /**  */
     private String[] columnNamesBought = {"Auto Name", "Bought Cost",
             "Bought Date", "Trim Package ", "Four by Four", "Turbo"};
+
+    /** */
+    private String[] soldOnColumns = {"Auto Name", "Bought Cost",
+            "Bought Date", "Buyer's Name", "Sold For", "Sold ON"};
+
+    /** */
+    private String[] overdueColumns = {"Auto Name", "Bought Cost",
+            "Bought Date", "Days Overdue"};
+
+
+    public static final int SOLDON_VIEW = 3;
+
+    public static final  int OVERDUE_VIEW = 2;
+
+    public static final int BOUGHTON_VIEW = 1;
+
+    public int currentView = 1;
 
     /****************************************************************************************************************
      *
@@ -235,6 +258,38 @@ public class ListEngine extends AbstractTableModel {
             add(Truck3);
         } catch (ParseException e) {
             throw new RuntimeException("Error in testing, creation of list");
+        }
+
+    }
+
+    /****************************************************************************************************************
+     *Method that changes the display mode of the GUI
+     *
+     * @param view int - the number of the display screen
+     ****************************************************************************************************************/
+    public void displayMode(int view) {
+        currentView = view;
+
+        switch(currentView) {
+
+            //case that the view is bought on
+            case BOUGHTON_VIEW:
+                tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.boughtOn != null).collect(Collectors.toList());
+
+            //case that view is overdue
+            case OVERDUE_VIEW:
+                GregorianCalendar todayDate = new GregorianCalendar(2019, 10, 30);
+                GregorianCalendar boughtDate;
+                for(Auto auto : listAutos) {
+                    boughtDate = auto.getBoughtOn();
+//                    boughtDate.
+                }
+
+
+            //case that view is sold on
+            case SOLDON_VIEW:
+                tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.soldOn != null).collect(Collectors.toList());
+
         }
 
     }
