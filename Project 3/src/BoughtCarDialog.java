@@ -133,10 +133,10 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
                 auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
                 ((Car) auto).setTrim(txtTrimPackage.getText());
 
-//                if (txtFourbyFour.getText().equalsIgnoreCase("true"))
-//                    ((Car) auto).setFourByFour(true);
-//                else
-//                    ((Car) auto).setFourByFour(false);
+                if (txtFourbyFour.getText().equalsIgnoreCase("true"))
+                    ((Car) auto).setTurbo(true);
+                else
+                    ((Car) auto).setTurbo(false);
             }
         }
 
