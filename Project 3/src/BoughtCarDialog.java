@@ -12,7 +12,7 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
     private JTextField txtName;
     private JTextField txtDate;
     private JTextField txtTrimPackage;
-    private JTextField txtFourbyFour;
+    private JTextField txtTurbo;
     private JTextField txtCost;
     private JButton okButton;
     private JButton cancelButton;
@@ -43,9 +43,9 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         // instantiate and display two text fields
-        txtName = new JTextField("F150",30);
+        txtName = new JTextField("F15123",30);
         txtDate = new JTextField(15);
-        txtFourbyFour = new JTextField("True",15);
+        txtTurbo = new JTextField("True",15);
         txtTrimPackage = new JTextField("LT",15);
         txtCost = new JTextField("10100.00", 15);
 
@@ -68,7 +68,7 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
         textPanel.add(new JLabel("Trim Package"));
         textPanel.add(txtTrimPackage);
         textPanel.add(new JLabel("Four by Four"));
-        textPanel.add(txtFourbyFour);
+        textPanel.add(txtTurbo);
         textPanel.add(new JLabel("Amount Paid for"));
         textPanel.add(txtCost);
 
@@ -133,7 +133,7 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
                 auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
                 ((Car) auto).setTrim(txtTrimPackage.getText());
 
-                if (txtFourbyFour.getText().equalsIgnoreCase("true"))
+                if (txtTurbo.getText().equalsIgnoreCase("true"))
                     ((Car) auto).setTurbo(true);
                 else
                     ((Car) auto).setTurbo(false);
