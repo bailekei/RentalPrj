@@ -127,33 +127,33 @@ public class GUICarDealer extends JFrame implements ActionListener
     public void actionPerformed(ActionEvent e) {
 
         Object comp = e.getSource();
-//
-//        if (saveSerItem == comp || saveTextItem == comp) {
-//            JFileChooser chooser = new JFileChooser();
-//            int status = chooser.showSaveDialog(null);
-//            if (status == JFileChooser.APPROVE_OPTION) {
-//                String filename = chooser.getSelectedFile().getAbsolutePath();
-//                if (saveSerItem == e.getSource())
-//                    DList.saveDatabase(filename);
-//            }
-//        }
-//
-//        //MenuBar options
-//        if(e.getSource() == boughtTruckItem){
-//            Auto auto = new Truck();
-//            BoughtOnDialog dialog = new BoughtOnDialog(this, auto);
-//            if(dialog.getCloseStatus() == BoughtOnDialog.OK){
-//                DList.add(auto);
-//            }
-//        }
-//
-//        if (soldItem == e.getSource()) {
-//            int index = jListArea.getSelectedRow();
-//            Auto unit = DList.remove(index);
-//            SoldOnDialog dialog = new SoldOnDialog(this, unit);
-//            JOptionPane.showMessageDialog(null, " Cost:" + unit.getCost());
-//        }
-    }
+
+        if (saveSerItem == comp || saveTextItem == comp) {
+            JFileChooser chooser = new JFileChooser();
+            int status = chooser.showSaveDialog(null);
+            if (status == JFileChooser.APPROVE_OPTION) {
+                String filename = chooser.getSelectedFile().getAbsolutePath();
+                if (saveSerItem == e.getSource())
+                    DList.saveDatabase(filename);
+            }
+        }
+
+        //MenuBar options
+        if(e.getSource() == boughtTruckItem){
+            Auto auto = new Truck();
+            BoughtTruckDialog dialog = new BoughtTruckDialog(this, auto);
+            if(dialog.getCloseStatus() == BoughtTruckDialog.OK){
+                DList.add(auto);
+            }
+        }
+
+        if (soldItem == e.getSource()) {
+            int index = jListArea.getSelectedRow();
+            Auto unit = DList.remove(index);
+            //SoldOnDialog dialog = new SoldOnDialog(this, unit);
+            JOptionPane.showMessageDialog(null, " Cost:" + unit.getCost());
+        }
+   }
 
 
     public static void main(String[] args) {
