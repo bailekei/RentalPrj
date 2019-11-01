@@ -113,7 +113,7 @@ public class BoughtTruckDialog extends JDialog implements ActionListener {
                 }
                 auto.setBoughtOn(temp);
                 auto.setAutoName(txtName.getText());
-                ((Car) auto).setTrim(txtTrimPackage.getText());
+                ((Truck) auto).setTrim(txtTrimPackage.getText());
                 auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
 
             }
