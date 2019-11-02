@@ -91,7 +91,7 @@ public class ListEngine extends AbstractTableModel {
     public void add(Auto a) {
 
         //changed from listAutos
-        tempList.add(a);
+        listAutos.add(a);
         fireTableDataChanged();
     }
 
@@ -100,7 +100,7 @@ public class ListEngine extends AbstractTableModel {
      *
      ****************************************************************************************************************/
     public Auto get(int i) {
-        return tempList.get(i);
+        return listAutos.get(i);
     }
 
     /****************************************************************************************************************
@@ -108,7 +108,7 @@ public class ListEngine extends AbstractTableModel {
      *
      ****************************************************************************************************************/
     public int getSize() {
-        return tempList.size();
+        return listAutos.size();
     }
 
     /****************************************************************************************************************
@@ -117,7 +117,7 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     @Override
     public int getRowCount() {
-        return tempList.size();
+        return listAutos.size();
     }
 
     /****************************************************************************************************************
@@ -146,29 +146,29 @@ public class ListEngine extends AbstractTableModel {
     public Object getValueAt(int row, int col) {
         switch (col) {
             case 0:
-                return (tempList.get(row).getAutoName());
+                return (listAutos.get(row).getAutoName());
 
             case 1:
-                return (tempList.get(row).getBoughtCost());
+                return (listAutos.get(row).getBoughtCost());
 
             case 2:
                 return (DateFormat.getDateInstance(DateFormat.SHORT)
-                        .format(tempList.get(row).getBoughtOn().getTime()));
+                        .format(listAutos.get(row).getBoughtOn().getTime()));
 
             case 3:
-                return (tempList.get(row).getTrim());
+                return (listAutos.get(row).getTrim());
 
             case 4:
             case 5:
-                if (tempList.get(row) instanceof Truck)
+                if (listAutos.get(row) instanceof Truck)
                     if (col == 4)
-                        return (((Truck) tempList.get(row)).isFourByFour());
+                        return (((Truck) listAutos.get(row)).isFourByFour());
                     else
                         return "";
 
                 else {
                     if (col == 5)
-                        return (((Car) tempList.get(row)).isTurbo());
+                        return (((Car) listAutos.get(row)).isTurbo());
                     else
                         return "";
                 }
@@ -231,7 +231,6 @@ public class ListEngine extends AbstractTableModel {
      *****************************************************************************************************************/
     public void loadFromText(String filename) {
         listAutos.clear();
-
     }
 
     /****************************************************************************************************************
@@ -307,7 +306,6 @@ public class ListEngine extends AbstractTableModel {
                     if(dateOverdue(boughtDate) == true) {
                         tempList.add(auto);
                     }
-
                 }
                 currentView = OVERDUE_VIEW;
 
@@ -338,53 +336,51 @@ public class ListEngine extends AbstractTableModel {
         else {
             return false;
         }
-
-
     }
 
-    /****************************************************************************************************************
-     *
-     *
-     ****************************************************************************************************************/
-    @Override
-    public Class<?> getColumnClass(int i) {
-        return null;
-    }
-
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public Class<?> getColumnClass(int i) {
+//        return columnClass[i];
+//    }
+//
     /****************************************************************************************************************
      *
      *
      ****************************************************************************************************************/
     @Override
     public boolean isCellEditable(int i, int i1) {
-        return false;
+        return true;
     }
 
-
-    /****************************************************************************************************************
-     *
-     *
-     ****************************************************************************************************************/
-    @Override
-    public void setValueAt(Object o, int i, int i1) {
-
-    }
-
-    /****************************************************************************************************************
-     *
-     *
-     ****************************************************************************************************************/
-    @Override
-    public void addTableModelListener(TableModelListener tableModelListener) {
-
-    }
-
-    /****************************************************************************************************************
-     *
-     *
-     ****************************************************************************************************************/
-    @Override
-    public void removeTableModelListener(TableModelListener tableModelListener){
-
-    }
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public void setValueAt(Object o, int i, int i1) {
+//
+//
+//    }
+//
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public void addTableModelListener(TableModelListener tableModelListener) {
+//
+//    }
+//
+//    /****************************************************************************************************************
+//     *
+//     *
+//     ****************************************************************************************************************/
+//    @Override
+//    public void removeTableModelListener(TableModelListener tableModelListener){
+//
+//    }
 }

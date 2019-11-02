@@ -41,9 +41,9 @@ public class SoldOnDialog extends JDialog implements ActionListener {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         // instantiate and display two text fields
-        txtName = new JTextField("Joe",30);
-        txtDate = new JTextField("10/17/2018",15);
-        txtCost = new JTextField("14000.00",15);
+        txtName = new JTextField(30);
+        txtDate = new JTextField(15);
+        txtCost = new JTextField(15);
 
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new GridLayout(4,2));
@@ -79,6 +79,7 @@ public class SoldOnDialog extends JDialog implements ActionListener {
 
         // if OK clicked the fill the object
         if (button == okButton) {
+
             // save the information in the object
             closeStatus = OK;
             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
@@ -96,6 +97,7 @@ public class SoldOnDialog extends JDialog implements ActionListener {
             auto.setSoldOn(temp);
             auto.setSoldPrice(Double.parseDouble(txtCost.getText()));
         }
+
         // make the dialog disappear
         dispose();
     }

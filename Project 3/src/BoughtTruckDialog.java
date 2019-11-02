@@ -35,7 +35,7 @@ public class BoughtTruckDialog extends JDialog implements ActionListener {
         super(parent, true);
 
         this.auto = auto;
-        setTitle("Sold to dialog box");
+        setTitle("Bought dialog box");
         closeStatus = CANCEL;
         setSize(400,200);
 

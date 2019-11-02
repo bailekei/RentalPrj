@@ -137,9 +137,9 @@ public class GUICarDealer extends JFrame implements ActionListener
                 if (saveSerItem == e.getSource()) {
                     DList.saveDatabase(filename);
                 }
-                if (saveSerText == e.getSource()) {
-                    DList.saveAsText(filename);
-                }
+//                if (saveSerText == e.getSource()) {
+//                    DList.saveAsText(filename);
+//                }
             }
         }
 
@@ -167,26 +167,36 @@ public class GUICarDealer extends JFrame implements ActionListener
             }
         }
 
+        if(e.getSource() == boughtCarItem) {
+            Auto auto = new Car();
+            BoughtCarDialog dialog = new BoughtCarDialog(this, auto);
+            if(dialog.getCloseStatus() == BoughtCarDialog.OK) {
+                DList.add(auto);
+            }
+        }
+
         if (soldItem == e.getSource()) {
             int index = jListArea.getSelectedRow();
             Auto unit = DList.remove(index);
-            //SoldOnDialog dialog = new SoldOnDialog(this, unit);
+            SoldOnDialog dialog = new SoldOnDialog(this, unit);
             JOptionPane.showMessageDialog(null, " Cost:" + unit.getCost());
         }
 
+        //overdue screen button follows with actions
         if(e.getSource() == overdueScreen) {
             DList.displayMode(2);
         }
 
+        //sold screen button follows with actions
         if(e.getSource() == soldScreen) {
             DList.displayMode(3);
         }
 
+        //bought screen button follows with actions
         if(e.getSource() == boughtScreen) {
             DList.displayMode(1);
         }
    }
-
 
     public static void main(String[] args) {
         new GUICarDealer();
