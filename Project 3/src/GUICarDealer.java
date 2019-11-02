@@ -65,7 +65,7 @@ public class GUICarDealer extends JFrame implements ActionListener
         boughtScreen = new JMenuItem("Bought Screen");
         soldScreen = new JMenuItem("Sold Screen");
         overdueScreen = new JMenuItem("30 Days overDue Screen");
-        boughtTruckItem = new JMenuItem("Bought a Truck");
+        boughtTruckItem = new JMenuItem("Bought Car or Truck");
 
         soldItem = new JMenuItem("Sold Car or Truck");
 
@@ -128,13 +128,33 @@ public class GUICarDealer extends JFrame implements ActionListener
 
         Object comp = e.getSource();
 
-        if (saveSerItem == comp || saveTextItem == comp) {
+        //save files
+        if (saveSerItem == comp || saveSerText == comp) {
             JFileChooser chooser = new JFileChooser();
             int status = chooser.showSaveDialog(null);
             if (status == JFileChooser.APPROVE_OPTION) {
                 String filename = chooser.getSelectedFile().getAbsolutePath();
-                if (saveSerItem == e.getSource())
+                if (saveSerItem == e.getSource()) {
                     DList.saveDatabase(filename);
+                }
+                if (saveSerText == e.getSource()) {
+                    DList.saveAsText(filename);
+                }
+            }
+        }
+
+        //open files
+        if(openSerItem == comp || openSerText == comp) {
+            JFileChooser chooser = new JFileChooser();
+            int status = chooser.showOpenDialog(null);
+            if(status == JFileChooser.APPROVE_OPTION) {
+                String filename = chooser.getSelectedFile().getAbsolutePath();
+                if(openSerItem == e.getSource()) {
+                    DList.loadDatabase(filename);
+                }
+                if(openSerText == e.getSource()) {
+                    DList.loadFromText(filename);
+                }
             }
         }
 
@@ -152,6 +172,18 @@ public class GUICarDealer extends JFrame implements ActionListener
             Auto unit = DList.remove(index);
             //SoldOnDialog dialog = new SoldOnDialog(this, unit);
             JOptionPane.showMessageDialog(null, " Cost:" + unit.getCost());
+        }
+
+        if(e.getSource() == overdueScreen) {
+            DList.displayMode(2);
+        }
+
+        if(e.getSource() == soldScreen) {
+            DList.displayMode(3);
+        }
+
+        if(e.getSource() == boughtScreen) {
+            DList.displayMode(1);
         }
    }
 
