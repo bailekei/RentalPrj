@@ -100,9 +100,4 @@ public class Car extends Auto {
                 ", autoName='" + autoName + '\'' + "    " +
                 ' ';
     }
-
-//    @Override
-//    public double getBoughtCost() {
-//       return
-//    }
 }

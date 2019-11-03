@@ -118,12 +118,10 @@ public class GUICarDealer extends JFrame implements ActionListener
     }
 
     /*****************************************************************
-     *
      * This method handles event-handling code for the GUI1024
      *
      * @param e - Holds the action event parameter
      *****************************************************************/
-
     public void actionPerformed(ActionEvent e) {
 
         Object comp = e.getSource();
@@ -177,7 +175,8 @@ public class GUICarDealer extends JFrame implements ActionListener
 
         if (soldItem == e.getSource()) {
             int index = jListArea.getSelectedRow();
-            Auto unit = DList.remove(index);
+            Auto unit = DList.get(index);
+            DList.remove(index);
             SoldOnDialog dialog = new SoldOnDialog(this, unit);
             JOptionPane.showMessageDialog(null, " Cost:" + unit.getCost());
         }
@@ -185,16 +184,20 @@ public class GUICarDealer extends JFrame implements ActionListener
         //overdue screen button follows with actions
         if(e.getSource() == overdueScreen) {
             DList.displayMode(2);
+            DList.getColumnName(DList.getColumnCount());
+//            DList.fireTableChanged
         }
 
         //sold screen button follows with actions
         if(e.getSource() == soldScreen) {
             DList.displayMode(3);
+            DList.getColumnName(DList.getColumnCount());
         }
 
         //bought screen button follows with actions
         if(e.getSource() == boughtScreen) {
             DList.displayMode(1);
+            DList.getColumnName(DList.getColumnCount());
         }
    }
 

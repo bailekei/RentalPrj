@@ -26,34 +26,38 @@ public class ListEngine extends AbstractTableModel {
     /** temporary array list that holds data needed for the GUI */
     private ArrayList<Auto> tempList;
 
-    /**  */
+    /** names for the columns in the bought mode */
     private String[] columnNamesBought = {"Auto Name", "Bought Cost",
             "Bought Date", "Trim Package ", "Four by Four", "Turbo"};
 
-
-    /** */
+    /** names for the columns in the sold mode */
     private String[] soldOnColumns = {"Auto Name", "Bought Cost",
             "Bought Date", "Buyer's Name", "Sold For", "Sold On"};
 
-    /** */
+    /** names for the columns in the overdue mode*/
     private String[] overdueColumns = {"Auto Name", "Bought Cost",
             "Bought Date", "Days Overdue"};
 
-
+    //integer used to establish sold on dislay mode
     public static final int SOLDON_VIEW = 3;
 
+    //integer used to establish overdue display mode
     public static final  int OVERDUE_VIEW = 2;
 
+    //integer used to establish bought on display mode
     public static final int BOUGHTON_VIEW = 1;
 
+    //the current display mode
     public int currentView = 1;
 
     /****************************************************************************************************************
+     *This method creates the correct column labels depending on what display mode the user is in
      *
-     *
+     * @param col int - the column of the table
      ****************************************************************************************************************/
     @Override
     public String getColumnName(int col) {
+
         if(currentView == BOUGHTON_VIEW) {
             return columnNamesBought[col];
         }
@@ -67,7 +71,7 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
-     *
+     *Constructor that establishes the master auto list
      *
      ****************************************************************************************************************/
     public ListEngine() {
@@ -77,52 +81,59 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
+     *Method that removes an auto from a chosen index
      *
-     *
+     * @param i int - the index that the user wants to remove the auto from
+     * @return Auto
      ****************************************************************************************************************/
-    public Auto remove(int i) {
-        return null;
+    public void remove(int i) {
+         listAutos.remove(i);
+        fireTableDataChanged();
     }
 
     /****************************************************************************************************************
+     *Method that adds an auto to the list and signals that the table has been changed
      *
-     *
+     * @param a Auto - the auto that the user wants to add to the master list
      ****************************************************************************************************************/
     public void add(Auto a) {
-
-        //changed from listAutos
         listAutos.add(a);
         fireTableDataChanged();
     }
 
     /****************************************************************************************************************
+     *Method that gets the auto that at a given index in the arraylist
      *
-     *
+     * @param i int - the index that you want to pull the auto from
+     * @return Auto - the auto in the given index
      ****************************************************************************************************************/
     public Auto get(int i) {
-        return listAutos.get(i);
+        return tempList.get(i);
     }
 
     /****************************************************************************************************************
+     *Method that returns the size of the arraylist
      *
-     *
+     * @return int size
      ****************************************************************************************************************/
     public int getSize() {
-        return listAutos.size();
+        return tempList.size();
     }
 
     /****************************************************************************************************************
+     *Method that returns the size of the rows based on how many items are in the arraylist
      *
-     *
+     * @return int - the number of rows
      ****************************************************************************************************************/
     @Override
     public int getRowCount() {
-        return listAutos.size();
+        return tempList.size();
     }
 
     /****************************************************************************************************************
+     *Method that returns the column length based of the length of the array of column list names
      *
-     *
+     * @return int - the number of columns
      ****************************************************************************************************************/
     @Override
     public int getColumnCount() {
@@ -139,8 +150,12 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
+     *Method that puts each element in the given row and column in the table
      *
+     * @param row int - the row of the table or index of the arraylist
+     * @param col int - the column of the table
      *
+     * @return data of the arraylist corresponding to the given column
      ****************************************************************************************************************/
     @Override
     public Object getValueAt(int row, int col) {
@@ -178,8 +193,9 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
+     *Method that allows the user to save the database under a given file name
      *
-     *
+     * @param filename String - the file name that the user wants to save the file under
      ****************************************************************************************************************/
     public void saveDatabase(String filename) {
         try {
@@ -194,8 +210,9 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
+     *Method that allows the user to load a database from a file
      *
-     *
+     * @param filename String - the name of the file that the user wants to load the database from
      ****************************************************************************************************************/
     public void loadDatabase(String filename) {
         try {
@@ -234,7 +251,7 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
-     *
+     *Method that tests given parts of the program
      *
      ****************************************************************************************************************/
     public void createList() {
@@ -298,12 +315,13 @@ public class ListEngine extends AbstractTableModel {
                 tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.boughtOn != null).collect(Collectors.toList());
                 currentView = BOUGHTON_VIEW;
 
+
             //case that view is overdue
             case OVERDUE_VIEW:
                 GregorianCalendar boughtDate;
                 for(Auto auto : listAutos) {
                     boughtDate = auto.getBoughtOn();
-                    if(dateOverdue(boughtDate) == true) {
+                    if(dateOverdue(boughtDate)) {
                         tempList.add(auto);
                     }
                 }
@@ -348,8 +366,10 @@ public class ListEngine extends AbstractTableModel {
 //    }
 //
     /****************************************************************************************************************
+     *Method that tells whether the cell is editable or not
      *
-     *
+     * @param i int - the row or index of the list
+     * @param i1 int - the column of the table
      ****************************************************************************************************************/
     @Override
     public boolean isCellEditable(int i, int i1) {
@@ -361,8 +381,16 @@ public class ListEngine extends AbstractTableModel {
 //     *
 //     ****************************************************************************************************************/
 //    @Override
-//    public void setValueAt(Object o, int i, int i1) {
+//    public void setValueAt(Object o, int row, int col) {
+//        Object obj = listAutos.get(row);
+//        switch (col) {
+//            case 0:
+//                if(o instanceof String) {
+//                    listAutos.get(row).setAutoName();
+//                }
+//                break;
 //
+//        }
 //
 //    }
 //
