@@ -184,22 +184,24 @@ public class GUICarDealer extends JFrame implements ActionListener
         //overdue screen button follows with actions
         if(e.getSource() == overdueScreen) {
             DList.displayMode(2);
-            DList.getColumnName(DList.getColumnCount());
-//            DList.fireTableChanged
+            DList.fireTableStructureChanged();
         }
 
         //sold screen button follows with actions
         if(e.getSource() == soldScreen) {
             DList.displayMode(3);
-            DList.getColumnName(DList.getColumnCount());
+            DList.fireTableStructureChanged();
+
         }
 
         //bought screen button follows with actions
         if(e.getSource() == boughtScreen) {
             DList.displayMode(1);
-            DList.getColumnName(DList.getColumnCount());
+            DList.fireTableStructureChanged();
         }
    }
+
+
 
     public static void main(String[] args) {
         new GUICarDealer();
