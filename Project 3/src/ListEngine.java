@@ -38,7 +38,7 @@ public class ListEngine extends AbstractTableModel {
     private String[] overdueColumns = {"Auto Name", "Bought Cost",
             "Bought Date", "Days Overdue"};
 
-    //integer used to establish sold on dislay mode
+    //integer used to establish sold on display mode
     public static final int SOLDON_VIEW = 3;
 
     //integer used to establish overdue display mode
@@ -49,6 +49,8 @@ public class ListEngine extends AbstractTableModel {
 
     //the current display mode
     public int currentView = 1;
+
+//    private int daysOverdue = 0;
 
     /****************************************************************************************************************
      *This method creates the correct column labels depending on what display mode the user is in
@@ -87,7 +89,7 @@ public class ListEngine extends AbstractTableModel {
      * @return Auto
      ****************************************************************************************************************/
     public void remove(int i) {
-         listAutos.remove(i);
+        listAutos.remove(i);
         fireTableDataChanged();
     }
 
@@ -108,7 +110,16 @@ public class ListEngine extends AbstractTableModel {
      * @return Auto - the auto in the given index
      ****************************************************************************************************************/
     public Auto get(int i) {
-        return tempList.get(i);
+        if(currentView == BOUGHTON_VIEW) {
+            return listAutos.get(i);
+        }
+        if(currentView == OVERDUE_VIEW) {
+            return tempList.get(i);
+        }
+        if(currentView == SOLDON_VIEW) {
+            return tempList.get(i);
+        }
+        return listAutos.get(i);
     }
 
     /****************************************************************************************************************
@@ -117,7 +128,16 @@ public class ListEngine extends AbstractTableModel {
      * @return int size
      ****************************************************************************************************************/
     public int getSize() {
-        return tempList.size();
+        if(currentView == BOUGHTON_VIEW) {
+            return listAutos.size();
+        }
+        if(currentView == OVERDUE_VIEW) {
+            return tempList.size();
+        }
+        if(currentView == SOLDON_VIEW) {
+            return tempList.size();
+        }
+        return listAutos.size();
     }
 
     /****************************************************************************************************************
@@ -127,7 +147,16 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     @Override
     public int getRowCount() {
-        return tempList.size();
+        if(currentView == BOUGHTON_VIEW) {
+            return listAutos.size();
+        }
+        if(currentView == SOLDON_VIEW) {
+            return tempList.size();
+        }
+        if(currentView == OVERDUE_VIEW) {
+            return tempList.size();
+        }
+        return listAutos.size();
     }
 
     /****************************************************************************************************************
@@ -159,37 +188,87 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     @Override
     public Object getValueAt(int row, int col) {
-        switch (col) {
-            case 0:
-                return (listAutos.get(row).getAutoName());
 
-            case 1:
-                return (listAutos.get(row).getBoughtCost());
+        if(currentView == BOUGHTON_VIEW) {
+            switch (col) {
+                case 0:
+                    return (listAutos.get(row).getAutoName());
 
-            case 2:
-                return (DateFormat.getDateInstance(DateFormat.SHORT)
-                        .format(listAutos.get(row).getBoughtOn().getTime()));
+                case 1:
+                    return (listAutos.get(row).getBoughtCost());
 
-            case 3:
-                return (listAutos.get(row).getTrim());
+                case 2:
+                    return (DateFormat.getDateInstance(DateFormat.SHORT)
+                            .format(listAutos.get(row).getBoughtOn().getTime()));
 
-            case 4:
-            case 5:
-                if (listAutos.get(row) instanceof Truck)
-                    if (col == 4)
-                        return (((Truck) listAutos.get(row)).isFourByFour());
-                    else
-                        return "";
+                case 3:
+                    return (listAutos.get(row).getTrim());
 
-                else {
-                    if (col == 5)
-                        return (((Car) listAutos.get(row)).isTurbo());
-                    else
-                        return "";
-                }
-            default:
-                throw new RuntimeException("JTable row,col out of range: " + row + " " + col);
+                case 4:
+                case 5:
+                    if (listAutos.get(row) instanceof Truck)
+                        if (col == 4)
+                            return (((Truck) listAutos.get(row)).isFourByFour());
+                        else
+                            return "";
+
+                    else {
+                        if (col == 5)
+                            return (((Car) listAutos.get(row)).isTurbo());
+                        else
+                            return "";
+                    }
+                default:
+                    throw new RuntimeException("JTable row,col out of range: " + row + " " + col);
+            }
         }
+        if(currentView == OVERDUE_VIEW) {
+            switch(col) {
+                case 0:
+                    return (tempList.get(row).getAutoName());
+
+                case 1:
+                    return (tempList.get(row).getBoughtCost());
+
+                case 2:
+                    return (DateFormat.getDateInstance(DateFormat.SHORT)
+                        .format(tempList.get(row).getBoughtOn().getTime()));
+
+                case 3:
+                    return 0;
+
+                default:
+                    return null;
+            }
+        }
+
+        if(currentView == SOLDON_VIEW) {
+            switch(col) {
+                case 0:
+                    return (tempList.get(row).getAutoName());
+
+                case 1:
+                    return (tempList.get(row).getBoughtCost());
+
+                case 2:
+                    return (DateFormat.getDateInstance(DateFormat.SHORT)
+                            .format(tempList.get(row).getBoughtOn().getTime()));
+
+                case 3:
+                    return (tempList.get(row).getNameOfBuyer());
+
+                case 4:
+                    return (tempList.get(row).getSoldPrice());
+
+                case 5:
+                    return (DateFormat.getDateInstance(DateFormat.SHORT)
+                            .format(tempList.get(row).getSoldOn().getTime()));
+
+                default:
+                    return null;
+            }
+        }
+        return null;
     }
 
     /****************************************************************************************************************
@@ -313,8 +392,6 @@ public class ListEngine extends AbstractTableModel {
             //case that the view is bought on
             case BOUGHTON_VIEW:
                 tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.boughtOn != null).collect(Collectors.toList());
-                currentView = BOUGHTON_VIEW;
-
 
             //case that view is overdue
             case OVERDUE_VIEW:
@@ -325,12 +402,11 @@ public class ListEngine extends AbstractTableModel {
                         tempList.add(auto);
                     }
                 }
-                currentView = OVERDUE_VIEW;
 
             //case that view is sold on
             case SOLDON_VIEW:
                 tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.soldOn != null).collect(Collectors.toList());
-                currentView = SOLDON_VIEW;
+
         }
 
     }
@@ -356,6 +432,8 @@ public class ListEngine extends AbstractTableModel {
         }
     }
 
+
+
 //    /****************************************************************************************************************
 //     *
 //     *
@@ -373,7 +451,7 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     @Override
     public boolean isCellEditable(int i, int i1) {
-        return true;
+        return false;
     }
 
 //    /****************************************************************************************************************

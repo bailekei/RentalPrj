@@ -91,11 +91,12 @@ public class SoldOnDialog extends JDialog implements ActionListener {
                 temp.setTime(d);
 
             } catch (ParseException e1) {
-//                  Do some thing good, what I am not sure.
+                JOptionPane.showMessageDialog(null, "Please enter date in MM/dd/yyyy format", "Alert", JOptionPane.ERROR_MESSAGE);
             }
             auto.setNameOfBuyer(txtName.getText());
             auto.setSoldOn(temp);
             auto.setSoldPrice(Double.parseDouble(txtCost.getText()));
+
         }
 
         // make the dialog disappear
