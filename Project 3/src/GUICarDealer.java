@@ -135,9 +135,9 @@ public class GUICarDealer extends JFrame implements ActionListener
                 if (saveSerItem == e.getSource()) {
                     DList.saveDatabase(filename);
                 }
-//                if (saveSerText == e.getSource()) {
-//                    DList.saveAsText(filename);
-//                }
+                if (saveSerText == e.getSource()) {
+                    DList.saveAsText(filename);
+                }
             }
         }
 
