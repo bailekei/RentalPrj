@@ -236,6 +236,9 @@ public class ListEngine extends AbstractTableModel {
 
                 case 3:
                     return 0;
+
+                default:
+                    return null;
             }
         }
 
@@ -255,11 +258,14 @@ public class ListEngine extends AbstractTableModel {
                     return (tempList.get(row).getNameOfBuyer());
 
                 case 4:
-                    return (tempList.get(row).getCost());
+                    return (tempList.get(row).getSoldPrice());
 
                 case 5:
                     return (DateFormat.getDateInstance(DateFormat.SHORT)
                             .format(tempList.get(row).getSoldOn().getTime()));
+
+                default:
+                    return null;
             }
         }
         return null;

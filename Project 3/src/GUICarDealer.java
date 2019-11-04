@@ -34,6 +34,7 @@ public class GUICarDealer extends JFrame implements ActionListener
     private JMenuItem soldScreen;
     private JMenuItem overdueScreen;
 
+
     private JMenuItem soldItem;
 
     /** Holds the list engine */
@@ -65,7 +66,8 @@ public class GUICarDealer extends JFrame implements ActionListener
         boughtScreen = new JMenuItem("Bought Screen");
         soldScreen = new JMenuItem("Sold Screen");
         overdueScreen = new JMenuItem("30 Days overDue Screen");
-        boughtTruckItem = new JMenuItem("Bought Car or Truck");
+        boughtTruckItem = new JMenuItem("Bought Truck");
+        boughtCarItem = new JMenuItem("Bought Car");
 
         soldItem = new JMenuItem("Sold Car or Truck");
 
@@ -82,6 +84,7 @@ public class GUICarDealer extends JFrame implements ActionListener
         fileMenu.add(soldScreen);
         fileMenu.add(overdueScreen);
         actionMenu.add(boughtTruckItem);
+        actionMenu.add(boughtCarItem);
 
         actionMenu.add(soldItem);
 
@@ -93,6 +96,7 @@ public class GUICarDealer extends JFrame implements ActionListener
         saveSerItem.addActionListener(this);
         exitItem.addActionListener(this);
         boughtTruckItem.addActionListener(this);
+        boughtCarItem.addActionListener(this);
         soldItem.addActionListener(this);
         saveSerText.addActionListener(this);
         openSerText.addActionListener(this);
@@ -166,6 +170,7 @@ public class GUICarDealer extends JFrame implements ActionListener
         }
 
         if(e.getSource() == boughtCarItem) {
+
             Auto auto = new Car();
             BoughtCarDialog dialog = new BoughtCarDialog(this, auto);
             if(dialog.getCloseStatus() == BoughtCarDialog.OK) {
@@ -174,30 +179,38 @@ public class GUICarDealer extends JFrame implements ActionListener
         }
 
         if (soldItem == e.getSource()) {
-            int index = jListArea.getSelectedRow();
-            Auto unit = DList.get(index);
-            DList.remove(index);
-            SoldOnDialog dialog = new SoldOnDialog(this, unit);
-            JOptionPane.showMessageDialog(null, " Cost:" + unit.getCost());
+            try {
+                int index = jListArea.getSelectedRow();
+                Auto unit = DList.get(index);
+                DList.remove(index);
+                SoldOnDialog dialog = new SoldOnDialog(this, unit);
+                JOptionPane.showMessageDialog(null, " For the sales person, be sure to thank " + unit.getNameOfBuyer() +
+                        " \nfor buying the " + unit.getAutoName() + ", the price difference was:\t " + unit.getSoldBoughtCost(unit.getSoldPrice()) + " dollars.");
+            } catch(IndexOutOfBoundsException ex) {
+                JOptionPane.showMessageDialog(null, "Please select an auto from the list.", "Alert", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         //overdue screen button follows with actions
         if(e.getSource() == overdueScreen) {
             DList.displayMode(2);
             DList.fireTableStructureChanged();
+            DList.fireTableDataChanged();
+
         }
 
         //sold screen button follows with actions
         if(e.getSource() == soldScreen) {
             DList.displayMode(3);
             DList.fireTableStructureChanged();
-
+            DList.fireTableDataChanged();
         }
 
         //bought screen button follows with actions
         if(e.getSource() == boughtScreen) {
             DList.displayMode(1);
             DList.fireTableStructureChanged();
+            DList.fireTableDataChanged();
         }
    }
 

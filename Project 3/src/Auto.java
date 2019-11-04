@@ -186,4 +186,9 @@ public abstract class Auto implements Serializable {
     public void setTrim(String trim) {
         this.trim = trim;
     }
+
+    public double getSoldBoughtCost(double soldCost) {
+        double soldPrice = this.boughtCost - soldCost;
+        return soldPrice;
+    }
 }

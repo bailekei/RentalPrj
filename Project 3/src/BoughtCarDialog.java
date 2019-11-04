@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -49,10 +51,15 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
         txtTrimPackage = new JTextField("LT",15);
         txtCost = new JTextField("10100.00", 15);
 
-        String[] autoStrings = { "Truck", "Car" };
+        String[] autoStrings = { "Car"};
+
+        //putting in today's date in the text box
+        Date boughtDate = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        String strDate = dateFormat.format(boughtDate);
 
         combobox = new JComboBox<>(autoStrings);
-        txtDate.setText("10/17/2018");
+        txtDate.setText(strDate);
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new GridLayout(7,2));
 
@@ -67,7 +74,7 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
         textPanel.add(txtDate);
         textPanel.add(new JLabel("Trim Package"));
         textPanel.add(txtTrimPackage);
-        textPanel.add(new JLabel("Four by Four"));
+        textPanel.add(new JLabel("Turbo"));
         textPanel.add(txtTurbo);
         textPanel.add(new JLabel("Amount Paid for"));
         textPanel.add(txtCost);
