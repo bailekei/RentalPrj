@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableCellRenderer;
  * Maintains the GUI1024 for the red box rental store
  *
  * @author Keilani Bailey and Shayla Hinkley
- * @version Project 3: October 20th, 2019
+ * @version Project 3: November 4th, 2019
  **********************************************************************************************************************/
 
 public class GUICarDealer extends JFrame implements ActionListener
