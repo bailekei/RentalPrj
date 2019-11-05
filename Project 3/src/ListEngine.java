@@ -473,10 +473,11 @@ public class ListEngine extends AbstractTableModel {
 
             //case that view is overdue
             case OVERDUE_VIEW:
+                tempList.clear();
                 GregorianCalendar boughtDate;
                 for(Auto auto : listAutos) {
                     boughtDate = auto.getBoughtOn();
-                    if(numberOverdueDays(boughtDate) > 0) {
+                    if(numberOverdueDays(boughtDate) != -1) {
                         tempList.add(auto);
                     }
                 }
@@ -531,17 +532,15 @@ public class ListEngine extends AbstractTableModel {
         //calculating the differences in days
         long todayDateinM = Calendar.getInstance().getTimeInMillis();
         long compareDateinM = compareDate.getTimeInMillis();
-        long diffinM = todayDateinM - compareDateinM;
+        long diffinM = Math.abs(todayDateinM - compareDateinM);
         float diffInDays = (diffinM / (1000 * 60 * 60 * 24));
 
         int numOfDays = (int) Math.abs(diffInDays);
-
         //if the number of days is greater than or equal to 90 temp date comes after
         if(numOfDays >= 90 && tempDate.after(compareDate)) {
             return numOfDays;
-        } else {
-            return -1;
         }
+        return -1;
 
 
 //        GregorianCalendar todayDate1 = new GregorianCalendar();
