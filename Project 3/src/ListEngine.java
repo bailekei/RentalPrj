@@ -473,10 +473,14 @@ public class ListEngine extends AbstractTableModel {
 
             //case that view is overdue
             case OVERDUE_VIEW:
-                GregorianCalendar boughtDate;
+                GregorianCalendar boughtDate = new GregorianCalendar();
                 for(Auto auto : listAutos) {
+//                    boughtDate = auto.getBoughtOn();
+//                    if(dateOverdue(boughtDate)) {
+//                        tempList.add(auto);
+//                    }
                     boughtDate = auto.getBoughtOn();
-                    if(dateOverdue(boughtDate)) {
+                    if(numberOverdueDays(boughtDate) > 0) {
                         tempList.add(auto);
                     }
                 }
@@ -488,29 +492,6 @@ public class ListEngine extends AbstractTableModel {
             break;
         }
         fireTableDataChanged();
-    }
-
-    /****************************************************************************************************************
-     *Method that compares two dates to see if overdue
-     *
-     * @param n GregorianCalendar- the date that the car was bought on
-     ****************************************************************************************************************/
-    public boolean dateOverdue(GregorianCalendar n) {
-        GregorianCalendar todayDate = new GregorianCalendar(2019, 10, 30);
-        GregorianCalendar compareDate;
-        compareDate = n;
-
-
-
-        long diffInM = todayDate.getTimeInMillis() - compareDate.getTimeInMillis();
-        long diffInDays = (diffInM / (1000 * 60 * 60 * 24));
-
-        if(diffInDays >= 90 && todayDate.after(compareDate)) {
-            return true;
-        }
-        else {
-            return false;
-        }
     }
 
     /****************************************************************************************************************
@@ -539,20 +520,33 @@ public class ListEngine extends AbstractTableModel {
      *
      * @return numDays int - the number of overdue days
      ****************************************************************************************************************/
-    public long numberOverdueDays(GregorianCalendar n) {
-        GregorianCalendar todayDate = new GregorianCalendar(2019, 10, 30);
+    public int numberOverdueDays(GregorianCalendar n) {
         GregorianCalendar compareDate;
         compareDate = n;
 
-        long diffInM = todayDate.getTimeInMillis() - compareDate.getTimeInMillis();
-        long diffInDays = (diffInM / (1000 * 60 * 60 * 24));
+        Date todaydate = Calendar.getInstance().getTime();
+        long todayDateinM = Calendar.getInstance().getTimeInMillis();
+        long compareDateinM = compareDate.getTimeInMillis();
+        long diffinM = todayDateinM - compareDateinM;//
+//        GregorianCalendar todayDate1 = new GregorianCalendar();
+//        todayDate1.setTime(todayDate2);
+//
+//        //calculating the difference in time in days
+//        long diffInM = todayDate - compareDate.getTimeInMillis();
+//        long diffInDays = (diffInM / (1000 * 60 * 60 * 24));
+//
+//
+//        if(diffInDays >= 90 && todayDate1.after(compareDate)) {
+//            return diffInDays;
+//        }
+//        else {
+//            return -1;
+//        }
 
-        if(diffInDays >= 90 && todayDate.after(compareDate)) {
-           long numDays = diffInDays - 90;
-            return numDays;
-        }
-        else {
-            return -1;
-        }
+//        int daysBetween = 0;
+//        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyy");
+//        try {
+//            Date
+//        }
     }
 }
