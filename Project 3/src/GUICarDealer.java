@@ -194,10 +194,16 @@ public class GUICarDealer extends JFrame implements ActionListener
             try {
                 int index = jListArea.getSelectedRow();
                 Auto unit = DList.get(index);
-                DList.remove(index);
                 SoldOnDialog dialog = new SoldOnDialog(this, unit);
-                JOptionPane.showMessageDialog(null, " For the sales person, be sure to thank " + unit.getNameOfBuyer() +
-                        " \nfor buying the " + unit.getAutoName() + ", the price difference was:\t " + unit.getSoldBoughtCost(unit.getSoldPrice()) + " dollars.");
+                if(dialog.getCloseStatus() == SoldOnDialog.OK) {
+                   if(unit.getSoldPrice() >= 0 && !unit.getNameOfBuyer().equalsIgnoreCase("") && unit.getSoldOn() != null) {
+                       DList.remove(index);
+                       JOptionPane.showMessageDialog(null, " For the sales person, be sure to thank " + unit.getNameOfBuyer() +
+                               " \nfor buying the " + unit.getAutoName() + ", the price difference was:\t " + unit.getSoldBoughtCost(unit.getSoldPrice()) + " dollars.");
+                   } else {
+                       JOptionPane.showMessageDialog(null, "Incorrect fields found. Please try again.", "Alert", JOptionPane.ERROR_MESSAGE);
+                   }
+                }
             } catch(IndexOutOfBoundsException ex) {
                 JOptionPane.showMessageDialog(null, "Please select an auto from the list.", "Alert", JOptionPane.ERROR_MESSAGE);
             }
