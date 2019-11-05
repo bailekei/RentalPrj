@@ -45,7 +45,7 @@ public class GUICarDealer extends JFrame implements ActionListener
     private JTable jListArea;
 
     /** Scroll pane */
-    //private JScrollPane scrollList;
+    private JScrollPane scrollList;
 
     /*****************************************************************
      *
@@ -53,6 +53,7 @@ public class GUICarDealer extends JFrame implements ActionListener
      *
      *****************************************************************/
     public GUICarDealer(){
+
 
         //adding menu bar and menu items
         menus = new JMenuBar();
@@ -109,7 +110,9 @@ public class GUICarDealer extends JFrame implements ActionListener
         setLayout(new BorderLayout());
         panel = new JPanel();
         DList = new ListEngine();
+        DList.displayMode(1);
         jListArea = new JTable(DList);
+
         //jListArea.setDefaultRenderer(Object.class, new BorderColorRenderer());
         JScrollPane scrollList = new JScrollPane(jListArea);
         scrollList.setPreferredSize(new Dimension(800,300));
@@ -119,6 +122,8 @@ public class GUICarDealer extends JFrame implements ActionListener
 
         setVisible(true);
         setSize(950,450);
+
+
     }
 
     /*****************************************************************
@@ -178,7 +183,9 @@ public class GUICarDealer extends JFrame implements ActionListener
             }
         }
 
-        if (soldItem == e.getSource()) {
+
+        //allows user to only sell auto from bought screen
+        if (soldItem == e.getSource() && DList.currentMode() == 1) {
             try {
                 int index = jListArea.getSelectedRow();
                 Auto unit = DList.get(index);
@@ -189,32 +196,37 @@ public class GUICarDealer extends JFrame implements ActionListener
             } catch(IndexOutOfBoundsException ex) {
                 JOptionPane.showMessageDialog(null, "Please select an auto from the list.", "Alert", JOptionPane.ERROR_MESSAGE);
             }
+
+
+        }
+
+        //error message if user tries to sell auto from any other screen but bought screen
+        if(soldItem == e.getSource() && DList.currentMode() != 1) {
+            try {
+                throw new IllegalArgumentException();
+            } catch(IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null, "Must be on bought screen to sell an auto", "Alert", JOptionPane.ERROR_MESSAGE);
+            }
         }
 
         //overdue screen button follows with actions
         if(e.getSource() == overdueScreen) {
             DList.displayMode(2);
             DList.fireTableStructureChanged();
-            DList.fireTableDataChanged();
-
         }
 
         //sold screen button follows with actions
         if(e.getSource() == soldScreen) {
             DList.displayMode(3);
             DList.fireTableStructureChanged();
-            DList.fireTableDataChanged();
         }
 
         //bought screen button follows with actions
         if(e.getSource() == boughtScreen) {
-            DList.displayMode(1);
-            DList.fireTableStructureChanged();
-            DList.fireTableDataChanged();
+                DList.displayMode(1);
+                DList.fireTableStructureChanged();
         }
    }
-
-
 
     public static void main(String[] args) {
         new GUICarDealer();

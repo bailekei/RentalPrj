@@ -42,8 +42,13 @@ public class SoldOnDialog extends JDialog implements ActionListener {
 
         // instantiate and display two text fields
         txtName = new JTextField(30);
+//        txtName.requestFocus();
+        txtName.setEditable(true);
+//        txtName.setFocusable(true);
         txtDate = new JTextField(15);
         txtCost = new JTextField(15);
+
+
 
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new GridLayout(4,2));

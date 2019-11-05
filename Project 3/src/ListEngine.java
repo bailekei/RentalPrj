@@ -5,10 +5,7 @@ import java.io.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /***********************************************************************************************************************
@@ -89,7 +86,8 @@ public class ListEngine extends AbstractTableModel {
      * @return Auto
      ****************************************************************************************************************/
     public void remove(int i) {
-        listAutos.remove(i);
+        tempList.remove(i);
+//        displayMode(currentView);
         fireTableDataChanged();
     }
 
@@ -111,7 +109,7 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     public Auto get(int i) {
         if(currentView == BOUGHTON_VIEW) {
-            return listAutos.get(i);
+            return tempList.get(i);
         }
         if(currentView == OVERDUE_VIEW) {
             return tempList.get(i);
@@ -129,7 +127,7 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     public int getSize() {
         if(currentView == BOUGHTON_VIEW) {
-            return listAutos.size();
+            return tempList.size();
         }
         if(currentView == OVERDUE_VIEW) {
             return tempList.size();
@@ -148,7 +146,7 @@ public class ListEngine extends AbstractTableModel {
     @Override
     public int getRowCount() {
         if(currentView == BOUGHTON_VIEW) {
-            return listAutos.size();
+            return tempList.size();
         }
         if(currentView == SOLDON_VIEW) {
             return tempList.size();
@@ -192,29 +190,29 @@ public class ListEngine extends AbstractTableModel {
         if(currentView == BOUGHTON_VIEW) {
             switch (col) {
                 case 0:
-                    return (listAutos.get(row).getAutoName());
+                    return (tempList.get(row).getAutoName());
 
                 case 1:
-                    return (listAutos.get(row).getBoughtCost());
+                    return (tempList.get(row).getBoughtCost());
 
                 case 2:
                     return (DateFormat.getDateInstance(DateFormat.SHORT)
-                            .format(listAutos.get(row).getBoughtOn().getTime()));
+                            .format(tempList.get(row).getBoughtOn().getTime()));
 
                 case 3:
-                    return (listAutos.get(row).getTrim());
+                    return (tempList.get(row).getTrim());
 
                 case 4:
                 case 5:
-                    if (listAutos.get(row) instanceof Truck)
+                    if (tempList.get(row) instanceof Truck)
                         if (col == 4)
-                            return (((Truck) listAutos.get(row)).isFourByFour());
+                            return (((Truck) tempList.get(row)).isFourByFour());
                         else
                             return "";
 
                     else {
                         if (col == 5)
-                            return (((Car) listAutos.get(row)).isTurbo());
+                            return (((Car) tempList.get(row)).isTurbo());
                         else
                             return "";
                     }
@@ -320,13 +318,58 @@ public class ListEngine extends AbstractTableModel {
     /****************************************************************************************************************
      * The following code is half baked code. It should help you
      * understand how to load to a text file.  THis code does NOT
-     * function correctyly but, should give you a great start to
+     * function correctly but, should give you a great start to
      * your code.
      *
      * @param filename Name of the file where the data is being stored in
      *****************************************************************************************************************/
     public void loadFromText(String filename) {
         listAutos.clear();
+//        try {
+//            // open the data file
+//            Scanner fileReader = new Scanner(new File(filename));
+//
+//            //reads the file into a String
+//            String readFile = fileReader.nextLine();
+//
+//            //
+//
+//
+//
+//        }
+//
+//        // could not find file
+//        catch (Exception error) {
+//            System.out.println("File not found ");
+//        }
+
+//        Scanner inFS = null;
+//        FileInputStream fileByteStream = null;
+//        try {
+//            //open the file and set delimeters
+//            fileByteStream = new FileInputStream(filename);
+//            inFS = new Scanner(fileByteStream);
+//            inFS.useDelimiter("[,\r\n]+");
+//
+//            //continue whilemore data to read
+//            while(inFS.hasNext()) {
+//
+//                //five elements of data to be read
+//                String name = inFS.next();
+//                GregorianCalendar boughtD = inFS.next();
+//                String state = inFS.next();
+//                double lat = inFS.nextDouble();
+//                double lon = inFS.nextDouble();
+//                ZipCode z = new ZipCode(zip, city, state, lat, lon);
+//
+//                zipList.add(z);
+//            }
+//            fileByteStream.close();
+//
+//            //error while reading file
+//        }catch(IOException error1) {
+//            System.out.println("Oops! Error related to: " + filename);
+//        }
     }
 
     /****************************************************************************************************************
@@ -334,8 +377,6 @@ public class ListEngine extends AbstractTableModel {
      *
      ****************************************************************************************************************/
     public void createList() {
-
-        // This code has been provided to get you started on the project.
 
         SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
         GregorianCalendar temp1 = new GregorianCalendar();
@@ -391,7 +432,8 @@ public class ListEngine extends AbstractTableModel {
 
             //case that the view is bought on
             case BOUGHTON_VIEW:
-                tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.boughtOn != null).collect(Collectors.toList());
+                tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.soldOn == null).collect(Collectors.toList());
+            break;
 
             //case that view is overdue
             case OVERDUE_VIEW:
@@ -402,12 +444,14 @@ public class ListEngine extends AbstractTableModel {
                         tempList.add(auto);
                     }
                 }
+            break;
 
             //case that view is sold on
             case SOLDON_VIEW:
                 tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.soldOn != null).collect(Collectors.toList());
-
+            break;
         }
+        fireTableDataChanged();
 
     }
 
@@ -432,17 +476,6 @@ public class ListEngine extends AbstractTableModel {
         }
     }
 
-
-
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public Class<?> getColumnClass(int i) {
-//        return columnClass[i];
-//    }
-//
     /****************************************************************************************************************
      *Method that tells whether the cell is editable or not
      *
@@ -454,39 +487,14 @@ public class ListEngine extends AbstractTableModel {
         return false;
     }
 
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public void setValueAt(Object o, int row, int col) {
-//        Object obj = listAutos.get(row);
-//        switch (col) {
-//            case 0:
-//                if(o instanceof String) {
-//                    listAutos.get(row).setAutoName();
-//                }
-//                break;
-//
-//        }
-//
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public void addTableModelListener(TableModelListener tableModelListener) {
-//
-//    }
-//
-//    /****************************************************************************************************************
-//     *
-//     *
-//     ****************************************************************************************************************/
-//    @Override
-//    public void removeTableModelListener(TableModelListener tableModelListener){
-//
-//    }
+    /****************************************************************************************************************
+     *Method that returns the current mode of the screen
+     *
+     * @return currentView int - the current view of the screen
+     ****************************************************************************************************************/
+    public int currentMode() {
+        return currentView;
+    }
+
+
 }

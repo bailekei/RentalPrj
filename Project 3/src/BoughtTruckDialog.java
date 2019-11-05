@@ -45,11 +45,11 @@ public class BoughtTruckDialog extends JDialog implements ActionListener {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         // instantiate and display two text fields
-        txtName = new JTextField("F150",30);
+        txtName = new JTextField(30);
         txtDate = new JTextField(15);
-        txtFourbyFour = new JTextField("True",15);
-        txtTrimPackage = new JTextField("LT",15);
-        txtCost = new JTextField("10100.00", 15);
+        txtFourbyFour = new JTextField(15);
+        txtTrimPackage = new JTextField(15);
+        txtCost = new JTextField(15);
 
         String[] autoStrings = { "Truck"};
 
