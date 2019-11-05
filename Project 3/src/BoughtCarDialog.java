@@ -45,11 +45,11 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 
         // instantiate and display two text fields
-        txtName = new JTextField("F15123",30);
+        txtName = new JTextField(30);
         txtDate = new JTextField(15);
-        txtTurbo = new JTextField("True",15);
-        txtTrimPackage = new JTextField("LT",15);
-        txtCost = new JTextField("10100.00", 15);
+        txtTurbo = new JTextField(15);
+        txtTrimPackage = new JTextField(15);
+        txtCost = new JTextField(15);
 
         String[] autoStrings = { "Car"};
 
@@ -72,9 +72,9 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
         textPanel.add(txtName);
         textPanel.add(new JLabel("bought on Date: "));
         textPanel.add(txtDate);
-        textPanel.add(new JLabel("Trim Package"));
+        textPanel.add(new JLabel("Trim Package (EX or LX)"));
         textPanel.add(txtTrimPackage);
-        textPanel.add(new JLabel("Turbo"));
+        textPanel.add(new JLabel("Turbo (True or false)"));
         textPanel.add(txtTurbo);
         textPanel.add(new JLabel("Amount Paid for"));
         textPanel.add(txtCost);
@@ -108,46 +108,67 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
             closeStatus = OK;
             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             GregorianCalendar temp = new GregorianCalendar();
+            Date d = null;
 
-            if (combobox.getSelectedIndex() == 1) {
-                Date d = null;
-                try {
-                    d = df.parse(txtDate.getText());
-                    temp.setTime(d);
 
-                } catch (ParseException e1) {
-//                  Do some thing good, what I am not sure.
-                }
+            //if error is caught in the text date throw error
+            try {
+                d = df.parse(txtDate.getText());
+                temp.setTime(d);
                 auto.setBoughtOn(temp);
-                auto.setAutoName(txtName.getText());
-                ((Car) auto).setTrim(txtTrimPackage.getText());
-                auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
-
+            } catch (ParseException e1) {
+                JOptionPane.showMessageDialog(null, "Date format must be in the form MM/dd/yyyy", "Alert", JOptionPane.ERROR_MESSAGE);
             }
 
-            else {
-                Date d = null;
-                try {
-                    d = df.parse(txtDate.getText());
-                    temp.setTime(d);
+            //sets the auto name
+            auto.setAutoName(txtName.getText());
 
-                } catch (ParseException e1) {
-//                  Do some thing good, what I am not sure.
+            //throws error if invalid input in the trim package
+            //sets the trim package
+            try {
+                if(txtTrimPackage.getText().equalsIgnoreCase("LX")) {
+                    ((Car) auto).setTrim("LX");
+                } else if(txtTrimPackage.getText().equalsIgnoreCase("EX")) {
+                    ((Car) auto).setTrim("EX");
                 }
+                else {
+                    throw new IllegalArgumentException();
+                }
+            } catch (IllegalArgumentException e1) {
+                JOptionPane.showMessageDialog(null, "Trim must be EX or LX", "Alert", JOptionPane.ERROR_MESSAGE);
+            }
 
-                auto.setBoughtOn(temp);
-                auto.setAutoName(txtName.getText());
-                auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
-                ((Car) auto).setTrim(txtTrimPackage.getText());
 
-                if (txtTurbo.getText().equalsIgnoreCase("true"))
+            //throws error if four or four text line is not true or false
+            //sets the turbo
+            try {
+                if (txtTurbo.getText().equalsIgnoreCase("true")) {
                     ((Car) auto).setTurbo(true);
-                else
+                } else if (txtTurbo.getText().equalsIgnoreCase("false")) {
                     ((Car) auto).setTurbo(false);
+                } else {
+                    throw new IllegalArgumentException();
+                }
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(null, "Four by four must be true or false", "Alert", JOptionPane.ERROR_MESSAGE);
+            }
+
+            //throws error is the cost is less than 0
+            //sets the bought cost
+            try {
+                if(Double.parseDouble(txtCost.getText()) < 0) {
+                    throw new IllegalArgumentException();
+                }
+                auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
+
+            }catch (IllegalArgumentException e2) {
+                JOptionPane.showMessageDialog(null, "Price cannot be negative", "Alert", JOptionPane.ERROR_MESSAGE);
             }
         }
 
-        // make the dialog disappear
+//        if(auto.getAutoName() != null && auto.getTrim() != null && ((Truck) auto).isFourByFour() || !((Truck) auto).isFourByFour() && auto.getBoughtCost() >= 0) {
+//            dispose();
+//        }
         dispose();
     }
 

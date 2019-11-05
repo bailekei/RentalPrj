@@ -54,7 +54,6 @@ public class GUICarDealer extends JFrame implements ActionListener
      *****************************************************************/
     public GUICarDealer(){
 
-
         //adding menu bar and menu items
         menus = new JMenuBar();
         fileMenu = new JMenu("File");
@@ -122,8 +121,6 @@ public class GUICarDealer extends JFrame implements ActionListener
 
         setVisible(true);
         setSize(950,450);
-
-
     }
 
     /*****************************************************************
@@ -170,7 +167,16 @@ public class GUICarDealer extends JFrame implements ActionListener
             Auto auto = new Truck();
             BoughtTruckDialog dialog = new BoughtTruckDialog(this, auto);
             if(dialog.getCloseStatus() == BoughtTruckDialog.OK){
-                DList.add(auto);
+
+                //only adds the auto to the list if these qualities are met
+                if(auto.getBoughtCost() >= 0.00 && auto.getAutoName() != null && auto.getTrim() != null) {
+                    DList.add(auto);
+                }
+
+                //error message to try again because incorrect fields
+                else {
+                    JOptionPane.showMessageDialog(null, "Incorrect fields found. Please try again.", "Alert", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 
@@ -182,7 +188,6 @@ public class GUICarDealer extends JFrame implements ActionListener
                 DList.add(auto);
             }
         }
-
 
         //allows user to only sell auto from bought screen
         if (soldItem == e.getSource() && DList.currentMode() == 1) {
@@ -196,8 +201,6 @@ public class GUICarDealer extends JFrame implements ActionListener
             } catch(IndexOutOfBoundsException ex) {
                 JOptionPane.showMessageDialog(null, "Please select an auto from the list.", "Alert", JOptionPane.ERROR_MESSAGE);
             }
-
-
         }
 
         //error message if user tries to sell auto from any other screen but bought screen
@@ -223,8 +226,8 @@ public class GUICarDealer extends JFrame implements ActionListener
 
         //bought screen button follows with actions
         if(e.getSource() == boughtScreen) {
-                DList.displayMode(1);
-                DList.fireTableStructureChanged();
+            DList.displayMode(1);
+            DList.fireTableStructureChanged();
         }
    }
 

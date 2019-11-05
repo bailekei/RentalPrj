@@ -191,4 +191,6 @@ public abstract class Auto implements Serializable {
         double soldPrice = this.boughtCost - soldCost;
         return soldPrice;
     }
+
+
 }

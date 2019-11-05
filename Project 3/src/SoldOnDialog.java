@@ -2,8 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -42,13 +44,15 @@ public class SoldOnDialog extends JDialog implements ActionListener {
 
         // instantiate and display two text fields
         txtName = new JTextField(30);
-//        txtName.requestFocus();
         txtName.setEditable(true);
-//        txtName.setFocusable(true);
         txtDate = new JTextField(15);
         txtCost = new JTextField(15);
 
-
+        //putting in today's date in the text box
+        Date boughtDate = Calendar.getInstance().getTime();
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        String strDate = dateFormat.format(boughtDate);
+        txtDate.setText(strDate);
 
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new GridLayout(4,2));
@@ -98,9 +102,28 @@ public class SoldOnDialog extends JDialog implements ActionListener {
             } catch (ParseException e1) {
                 JOptionPane.showMessageDialog(null, "Please enter date in MM/dd/yyyy format", "Alert", JOptionPane.ERROR_MESSAGE);
             }
-            auto.setNameOfBuyer(txtName.getText());
+
             auto.setSoldOn(temp);
-            auto.setSoldPrice(Double.parseDouble(txtCost.getText()));
+
+            try {
+                if(txtName.getText().equalsIgnoreCase("")) {
+                    throw new IllegalArgumentException();
+                } else {
+                    auto.setNameOfBuyer(txtName.getText());
+                }
+            } catch (IllegalArgumentException ex1) {
+                JOptionPane.showMessageDialog(null, "Please enter name of buyer", "Alert", JOptionPane.ERROR_MESSAGE);
+            }
+
+            try {
+                if(Double.parseDouble(txtCost.getText()) < 0) {
+                    throw new IllegalArgumentException();
+                }
+                auto.setSoldPrice(Double.parseDouble(txtCost.getText()));
+
+            }catch (IllegalArgumentException e2) {
+                JOptionPane.showMessageDialog(null, "Price cannot be negative", "Alert", JOptionPane.ERROR_MESSAGE);
+            }
 
         }
 

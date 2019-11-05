@@ -47,7 +47,6 @@ public class ListEngine extends AbstractTableModel {
     //the current display mode
     public int currentView = 1;
 
-//    private int daysOverdue = 0;
 
     /****************************************************************************************************************
      *This method creates the correct column labels depending on what display mode the user is in
@@ -57,12 +56,17 @@ public class ListEngine extends AbstractTableModel {
     @Override
     public String getColumnName(int col) {
 
+        //gives the column names if bought on view
         if(currentView == BOUGHTON_VIEW) {
             return columnNamesBought[col];
         }
+
+        //gives the column names if the view is overdue view
         if(currentView == OVERDUE_VIEW) {
             return overdueColumns[col];
         }
+
+        //gives the column names if the view is sold on view
         if(currentView == SOLDON_VIEW) {
             return soldOnColumns[col];
         }
@@ -86,8 +90,9 @@ public class ListEngine extends AbstractTableModel {
      * @return Auto
      ****************************************************************************************************************/
     public void remove(int i) {
+
+        //removes an auto from the list and updates the table
         tempList.remove(i);
-//        displayMode(currentView);
         fireTableDataChanged();
     }
 
@@ -97,7 +102,12 @@ public class ListEngine extends AbstractTableModel {
      * @param a Auto - the auto that the user wants to add to the master list
      ****************************************************************************************************************/
     public void add(Auto a) {
+
+        //adds the auto to the master list
         listAutos.add(a);
+
+        //refreshes the table
+        displayMode(currentView);
         fireTableDataChanged();
     }
 
@@ -108,12 +118,18 @@ public class ListEngine extends AbstractTableModel {
      * @return Auto - the auto in the given index
      ****************************************************************************************************************/
     public Auto get(int i) {
+
+        //if the screen is the bought screen
         if(currentView == BOUGHTON_VIEW) {
             return tempList.get(i);
         }
+
+        //if the screen is the overdue screen
         if(currentView == OVERDUE_VIEW) {
             return tempList.get(i);
         }
+
+        //if the screen is the sold on screen
         if(currentView == SOLDON_VIEW) {
             return tempList.get(i);
         }
@@ -126,12 +142,18 @@ public class ListEngine extends AbstractTableModel {
      * @return int size
      ****************************************************************************************************************/
     public int getSize() {
+
+        //if the screen is the bought screen
         if(currentView == BOUGHTON_VIEW) {
             return tempList.size();
         }
+
+        //if the screen is the overdue screen
         if(currentView == OVERDUE_VIEW) {
             return tempList.size();
         }
+
+        //if the screen is the sold screen
         if(currentView == SOLDON_VIEW) {
             return tempList.size();
         }
@@ -145,12 +167,18 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     @Override
     public int getRowCount() {
+
+        //if the screen is the bought screen
         if(currentView == BOUGHTON_VIEW) {
             return tempList.size();
         }
+
+        //if the screen is the sold screen
         if(currentView == SOLDON_VIEW) {
             return tempList.size();
         }
+
+        //if the the screen is the overdue screen
         if(currentView == OVERDUE_VIEW) {
             return tempList.size();
         }
@@ -164,12 +192,18 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     @Override
     public int getColumnCount() {
+
+        //if the screen is the bought screen
         if(currentView == BOUGHTON_VIEW) {
             return columnNamesBought.length;
         }
+
+        //if the screen is the sold on screen
         if(currentView == SOLDON_VIEW) {
             return soldOnColumns.length;
         }
+
+        //if the screen is the overdue screen
         if(currentView == OVERDUE_VIEW) {
             return overdueColumns.length;
         }
@@ -187,6 +221,7 @@ public class ListEngine extends AbstractTableModel {
     @Override
     public Object getValueAt(int row, int col) {
 
+        //getting the values to put in the screen for the bought screen
         if(currentView == BOUGHTON_VIEW) {
             switch (col) {
                 case 0:
@@ -220,6 +255,8 @@ public class ListEngine extends AbstractTableModel {
                     throw new RuntimeException("JTable row,col out of range: " + row + " " + col);
             }
         }
+
+        //getting the values to put in the screen for overdue screen
         if(currentView == OVERDUE_VIEW) {
             switch(col) {
                 case 0:
@@ -233,13 +270,15 @@ public class ListEngine extends AbstractTableModel {
                         .format(tempList.get(row).getBoughtOn().getTime()));
 
                 case 3:
-                    return 0;
+                    return (numberOverdueDays(tempList.get(row).getBoughtOn()));
 
                 default:
                     return null;
             }
         }
 
+
+        //getting the values to put in the screen for the sold screen
         if(currentView == SOLDON_VIEW) {
             switch(col) {
                 case 0:
@@ -282,7 +321,6 @@ public class ListEngine extends AbstractTableModel {
             os.close();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Error in saving db");
-
         }
     }
 
@@ -312,7 +350,6 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     public boolean saveAsText(String filename) {
         return false;
-
     }
 
     /****************************************************************************************************************
@@ -417,7 +454,6 @@ public class ListEngine extends AbstractTableModel {
         } catch (ParseException e) {
             throw new RuntimeException("Error in testing, creation of list");
         }
-
     }
 
     /****************************************************************************************************************
@@ -452,7 +488,6 @@ public class ListEngine extends AbstractTableModel {
             break;
         }
         fireTableDataChanged();
-
     }
 
     /****************************************************************************************************************
@@ -464,6 +499,8 @@ public class ListEngine extends AbstractTableModel {
         GregorianCalendar todayDate = new GregorianCalendar(2019, 10, 30);
         GregorianCalendar compareDate;
         compareDate = n;
+
+
 
         long diffInM = todayDate.getTimeInMillis() - compareDate.getTimeInMillis();
         long diffInDays = (diffInM / (1000 * 60 * 60 * 24));
@@ -497,4 +534,25 @@ public class ListEngine extends AbstractTableModel {
     }
 
 
+    /****************************************************************************************************************
+     *Method that collects the overdue days
+     *
+     * @return numDays int - the number of overdue days
+     ****************************************************************************************************************/
+    public long numberOverdueDays(GregorianCalendar n) {
+        GregorianCalendar todayDate = new GregorianCalendar(2019, 10, 30);
+        GregorianCalendar compareDate;
+        compareDate = n;
+
+        long diffInM = todayDate.getTimeInMillis() - compareDate.getTimeInMillis();
+        long diffInDays = (diffInM / (1000 * 60 * 60 * 24));
+
+        if(diffInDays >= 90 && todayDate.after(compareDate)) {
+           long numDays = diffInDays - 90;
+            return numDays;
+        }
+        else {
+            return -1;
+        }
+    }
 }
