@@ -473,12 +473,8 @@ public class ListEngine extends AbstractTableModel {
 
             //case that view is overdue
             case OVERDUE_VIEW:
-                GregorianCalendar boughtDate = new GregorianCalendar();
+                GregorianCalendar boughtDate;
                 for(Auto auto : listAutos) {
-//                    boughtDate = auto.getBoughtOn();
-//                    if(dateOverdue(boughtDate)) {
-//                        tempList.add(auto);
-//                    }
                     boughtDate = auto.getBoughtOn();
                     if(numberOverdueDays(boughtDate) > 0) {
                         tempList.add(auto);
@@ -489,6 +485,7 @@ public class ListEngine extends AbstractTableModel {
             //case that view is sold on
             case SOLDON_VIEW:
                 tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.soldOn != null).collect(Collectors.toList());
+                tempList.sort((Auto x1, Auto x2) -> x1.getNameOfBuyer().compareTo(x2.getNameOfBuyer()));
             break;
         }
         fireTableDataChanged();
@@ -524,10 +521,29 @@ public class ListEngine extends AbstractTableModel {
         GregorianCalendar compareDate;
         compareDate = n;
 
-        Date todaydate = Calendar.getInstance().getTime();
+        //getting today's date
+        Date todayDate = Calendar.getInstance().getTime();
+
+        //converting Date to Gregorian Calendar
+        GregorianCalendar tempDate = new GregorianCalendar();
+        tempDate.setTime(todayDate);
+
+        //calculating the differences in days
         long todayDateinM = Calendar.getInstance().getTimeInMillis();
         long compareDateinM = compareDate.getTimeInMillis();
-        long diffinM = todayDateinM - compareDateinM;//
+        long diffinM = todayDateinM - compareDateinM;
+        float diffInDays = (diffinM / (1000 * 60 * 60 * 24));
+
+        int numOfDays = (int) Math.abs(diffInDays);
+
+        //if the number of days is greater than or equal to 90 temp date comes after
+        if(numOfDays >= 90 && tempDate.after(compareDate)) {
+            return numOfDays;
+        } else {
+            return -1;
+        }
+
+
 //        GregorianCalendar todayDate1 = new GregorianCalendar();
 //        todayDate1.setTime(todayDate2);
 //
