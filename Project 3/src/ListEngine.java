@@ -469,6 +469,7 @@ public class ListEngine extends AbstractTableModel {
             //case that the view is bought on
             case BOUGHTON_VIEW:
                 tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.soldOn == null).collect(Collectors.toList());
+                tempList.sort(Comparator.comparing(o -> o.getBoughtOn()));
             break;
 
             //case that view is overdue
@@ -481,12 +482,13 @@ public class ListEngine extends AbstractTableModel {
                         tempList.add(auto);
                     }
                 }
+                tempList.sort((Auto x1, Auto x2) -> numberOverdueDays(x2.getBoughtOn()) - numberOverdueDays(x1.getBoughtOn()));
             break;
 
             //case that view is sold on
             case SOLDON_VIEW:
                 tempList = (ArrayList<Auto>)listAutos.stream().filter(auto -> auto.soldOn != null).collect(Collectors.toList());
-                tempList.sort((Auto x1, Auto x2) -> x1.getNameOfBuyer().compareTo(x2.getNameOfBuyer()));
+                tempList.sort(Comparator.comparing(Auto::getNameOfBuyer));
             break;
         }
         fireTableDataChanged();
