@@ -6,6 +6,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /***********************************************************************************************************************
  * CIS 162 Project 3
@@ -46,6 +49,8 @@ public class ListEngine extends AbstractTableModel {
 
     //the current display mode
     public int currentView = 1;
+
+    private Auto auto;
 
 
     /****************************************************************************************************************
@@ -347,7 +352,19 @@ public class ListEngine extends AbstractTableModel {
      * @param filename Name of the file where the data is being loaded from
      ****************************************************************************************************************/
     public boolean saveAsText(String filename) {
-        return false;
+       try {
+           FileWriter writer = new FileWriter("listengine.txt");
+
+           for(Auto auto: listAutos) {
+               writer.write(auto.toString() + "\n");
+           }
+
+           writer.close();
+
+       } catch (IOException ex) {
+           ex.printStackTrace();
+       }
+       return false;
     }
 
     /****************************************************************************************************************
@@ -356,52 +373,28 @@ public class ListEngine extends AbstractTableModel {
      * @param filename Name of the file where the data is being stored in
      *****************************************************************************************************************/
     public void loadFromText(String filename) {
-        listAutos.clear();
-//        try {
-//            // open the data file
-//            Scanner fileReader = new Scanner(new File(filename));
-//
-//            //reads the file into a String
-//            String readFile = fileReader.nextLine();
-//
-//            //
-//
-//
-//
-//        }
-//
-//        // could not find file
-//        catch (Exception error) {
-//            System.out.println("File not found ");
-//        }
+        listAutos = new ArrayList<Auto>();
 
-//        Scanner inFS = null;
-//        FileInputStream fileByteStream = null;
-//        try {
-//            //open the file and set delimeters
-//            fileByteStream = new FileInputStream(filename);
-//            inFS = new Scanner(fileByteStream);
-//            inFS.useDelimiter("[,\r\n]+");
-//
-//            //continue whilemore data to read
-//            while(inFS.hasNext()) {
-//
-//                //five elements of data to be read
-//                String name = inFS.next();
-//                GregorianCalendar boughtD = inFS.next();
-//                String state = inFS.next();
-//                double lat = inFS.nextDouble();
-//                double lon = inFS.nextDouble();
-//                ZipCode z = new ZipCode(zip, city, state, lat, lon);
-//
-//                zipList.add(z);
-//            }
-//            fileByteStream.close();
-//
-//            //error while reading file
-//        }catch(IOException error1) {
-//            System.out.println("Oops! Error related to: " + filename);
-//        }
+        try {
+            BufferedReader inFS = new BufferedReader(new FileReader(filename));
+
+            String str;
+
+            while((str = inFS.readLine()) != null) {
+                String[] values = str.split(",");
+
+                if(values[0] == "Truck") {
+                    Auto auto = processTruck(values);
+                    listAutos.add(auto);
+                }
+                if(values[0] == "Car") {
+                    Auto auto = processCar(values);
+                    listAutos.add(auto);
+                }
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     /****************************************************************************************************************
@@ -566,4 +559,90 @@ public class ListEngine extends AbstractTableModel {
         }
         return 0;
     }
+
+    /****************************************************************************************************************
+     *Method that is used in the save text file to enter data for a car auto and add to list
+     *
+     * @param values String Array - an array of auto data
+     * @return car Car - a car auto
+     ****************************************************************************************************************/
+
+    public Car processCar(String [] values) {
+        Car car = new Car();
+        car.setAutoName(values[1]);
+
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            GregorianCalendar temp = new GregorianCalendar();
+            Date d = null;
+            d = df.parse(values[2]);
+            temp.setTime(d);
+            car.setBoughtOn(temp);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        car.setBoughtCost(Double.parseDouble(values[3]));
+        car.setTrim(values[4]);
+
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            GregorianCalendar temp = new GregorianCalendar();
+            Date d = null;
+            d = df.parse(values[5]);
+            temp.setTime(d);
+            car.setSoldOn(temp);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        car.setNameOfBuyer(values[6]);
+        car.setSoldPrice(Double.parseDouble(values[7]));
+        car.setTurbo(Boolean.parseBoolean(values[8]));
+
+        return car;
+    }
+
+    /****************************************************************************************************************
+     *Method that is used in the save text file to enter data for a truck auto and add to list
+     *
+     * @param values String Array - an array of auto data
+     * @return truck Truck - a truck auto
+     ****************************************************************************************************************/
+    public Truck processTruck(String [] values) {
+        Truck truck = new Truck();
+
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            GregorianCalendar temp = new GregorianCalendar();
+            Date d = null;
+            d = df.parse(values[2]);
+            temp.setTime(d);
+            truck.setBoughtOn(temp);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        truck.setBoughtCost(Double.parseDouble(values[3]));
+        truck.setTrim(values[4]);
+
+        try {
+            SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+            GregorianCalendar temp = new GregorianCalendar();
+            Date d = null;
+            d = df.parse(values[5]);
+            temp.setTime(d);
+            truck.setSoldOn(temp);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+
+        truck.setNameOfBuyer(values[6]);
+        truck.setSoldPrice(Double.parseDouble(values[7]));
+        truck.setFourByFour(Boolean.parseBoolean(values[8]));
+
+        return truck;
+    }
+
+
 }

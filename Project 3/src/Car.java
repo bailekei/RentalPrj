@@ -88,16 +88,15 @@ public class Car extends Auto {
      *toString method that lays out the aspects of the car
      *
      *
-     * @return trim type String - the trim package of the car
-     * @return turbo type boolean - if the car has turbo or not
-     * @return autoName type String - the name of the car
+     * @return String the aspects of the car
      ****************************************************************************************************************/
     @Override
     public String toString() {
-        return "Car    " +
-                "trim='" + trim + '\'' +  "    " +
-                ", turbo=" + turbo + "    " +
-                ", autoName='" + autoName + '\'' + "    " +
-                ' ';
+
+        return ("Car," + getAutoName() + "," + getBoughtOn()+"," + getBoughtCost() + "," + getTrim()
+                + "," + getSoldOn() + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isTurbo());
+
+
+
     }
 }

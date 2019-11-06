@@ -192,5 +192,16 @@ public abstract class Auto implements Serializable {
         return soldPrice;
     }
 
+    /****************************************************************************************************************
+     *Method that prints out a String of the given auto information
+     ****************************************************************************************************************/
+    public String toString() {
+
+        return (getAutoName() + "," + getBoughtOn()+"," + getBoughtCost() + "," + getTrim()
+                + "," + getSoldOn() + "," + getNameOfBuyer() + "," + getSoldPrice());
+
+
+    }
+
 
 }

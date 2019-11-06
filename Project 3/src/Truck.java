@@ -68,16 +68,15 @@ public class Truck extends Auto {
     /****************************************************************************************************************
      *toString method that tells the aspects of the truck
      *
-     * @return trim type String - the trim package of the truck
-     * @return FourbyFour type boolean - if the truck is a four by four
-     * @return autoName type String - the name of the truck
+     * @return String the aspects of the truck
      ****************************************************************************************************************/
     @Override
     public String toString() {
-        return "Truck     " +
-                "trim=" + trim + "    " +
-                ", FourByFour=" + FourByFour + "     " +
-                ", autoName='" + autoName + '\'' + "     " +
-                ' ';
+
+        return ("Truck," + getAutoName() + "," + getBoughtOn()+"," + getBoughtCost() + "," + getTrim()
+                + "," + getSoldOn() + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isFourByFour());
+
+
+
     }
 }
