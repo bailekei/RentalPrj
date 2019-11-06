@@ -540,4 +540,30 @@ public class ListEngine extends AbstractTableModel {
         }
         return -1;
     }
+
+
+    /****************************************************************************************************************
+     *Method that compares bought and sold on dates
+     *
+     * @param boughtDate GregorianCalendar - the date the auto was bought
+     * @param soldDate GregorianCalendar - the date that the auto was sold
+     *
+     * @return int 1 - sold date comes after bought date
+     * @return int -1 sold date comes before bought date
+     ****************************************************************************************************************/
+    public int compareDates( GregorianCalendar boughtDate,GregorianCalendar soldDate) {
+        GregorianCalendar sDate = soldDate;
+        GregorianCalendar bDate = boughtDate;
+
+        try {
+            if (soldDate.after(boughtDate)) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }catch (NullPointerException ex) {
+
+        }
+        return 0;
+    }
 }

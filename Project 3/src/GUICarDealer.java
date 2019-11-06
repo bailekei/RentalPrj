@@ -208,23 +208,29 @@ public class GUICarDealer extends JFrame implements ActionListener
                 Auto unit = DList.get(index);
                 SoldOnDialog dialog = new SoldOnDialog(this, unit);
                 if(dialog.getCloseStatus() == SoldOnDialog.OK) {
-
                     //if the inputs are valid then remove the auto from the bought screen and move to the sold screen
-                    if(unit.getSoldPrice() > -1 && unit.getNameOfBuyer() != null && unit.getSoldOn() != null) {
+                    if(unit.getSoldPrice() > -1 && unit.getNameOfBuyer() != null && unit.getSoldOn() != null && DList.compareDates(unit.getBoughtOn(), unit.getSoldOn()) == 1) {
                        DList.remove(index);
                        JOptionPane.showMessageDialog(null, " For the sales person, be sure to thank " + unit.getNameOfBuyer() +
                                " \nfor buying the " + unit.getAutoName() + ", the price difference was:\t " + unit.getSoldBoughtCost(unit.getSoldPrice()) + " dollars.");
                    }
                     //if the inputs invalid then do not remove the auto from the bought screen and do not move to sold screen
                     else {
-                       unit.setSoldOn(null);
                        unit.setSoldPrice(-1);
                        unit.setNameOfBuyer(null);
                        JOptionPane.showMessageDialog(null, "Make sure all fields are valid. Please try again.", "Alert", JOptionPane.ERROR_MESSAGE);
                    }
                 }
+
+                //if the sold date comes after the bought date
+                if(DList.compareDates(unit.getBoughtOn(), unit.getSoldOn()) == -1) {
+                    unit.setSoldOn(null);
+                    throw new NullPointerException();
+                }
             } catch(IndexOutOfBoundsException ex) {
                 JOptionPane.showMessageDialog(null, "Please select an auto from the list.", "Alert", JOptionPane.ERROR_MESSAGE);
+            } catch (NullPointerException e1) {
+                JOptionPane.showMessageDialog(null, "Sold date must be after bought date", "Alert", JOptionPane.ERROR_MESSAGE);
             }
         }
 

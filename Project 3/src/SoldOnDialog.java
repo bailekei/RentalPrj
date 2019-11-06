@@ -56,11 +56,6 @@ public class SoldOnDialog extends JDialog implements ActionListener {
         txtDate = new JTextField(15);
         txtCost = new JTextField(15);
 
-        //putting in today's date in the text box
-        Date boughtDate = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
-        String strDate = dateFormat.format(boughtDate);
-        txtDate.setText(strDate);
 
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new GridLayout(4,2));
@@ -106,12 +101,14 @@ public class SoldOnDialog extends JDialog implements ActionListener {
             try {
                 d = df.parse(txtDate.getText());
                 temp.setTime(d);
+                auto.setSoldOn(temp);
 
             } catch (ParseException e1) {
+                auto.setSoldOn(null);
                 JOptionPane.showMessageDialog(null, "Please enter date in MM/dd/yyyy format", "Alert", JOptionPane.ERROR_MESSAGE);
             }
 
-            auto.setSoldOn(temp);
+
 
             //setting the name of the buyer
             try {
