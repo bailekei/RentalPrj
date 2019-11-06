@@ -11,16 +11,30 @@ import java.util.GregorianCalendar;
 
 public class BoughtCarDialog extends JDialog implements ActionListener {
 
+    //JTextFields
     private JTextField txtName;
     private JTextField txtDate;
     private JTextField txtTrimPackage;
     private JTextField txtTurbo;
     private JTextField txtCost;
+
+    //JButtons
     private JButton okButton;
     private JButton cancelButton;
+
+    /** helper instance variable in checking turbo */
+    private int checkTurbo;
+
+    /** ComboBox string at the top of the dialog box*/
     private JComboBox<String> combobox;
+
+    /** checks the close status of the dialog */
     private int closeStatus;
+
+    /** instance variable for auto class */
     private Auto auto;
+
+    //integers set to OK and Cancel
     static final int OK = 0;
     static final int CANCEL = 1;
 
@@ -121,7 +135,16 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
             }
 
             //sets the auto name
-            auto.setAutoName(txtName.getText());
+            try {
+                if(txtName.getText().equalsIgnoreCase("")) {
+                    throw new IllegalArgumentException();
+                } else {
+                    auto.setAutoName(txtName.getText());
+                }
+            } catch (IllegalArgumentException ex1) {
+                JOptionPane.showMessageDialog(null, "Please enter name of buyer", "Alert", JOptionPane.ERROR_MESSAGE);
+            }
+
 
             //throws error if invalid input in the trim package
             //sets the trim package
@@ -144,31 +167,31 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
             try {
                 if (txtTurbo.getText().equalsIgnoreCase("true")) {
                     ((Car) auto).setTurbo(true);
+                    checkTurbo = 1;
                 } else if (txtTurbo.getText().equalsIgnoreCase("false")) {
                     ((Car) auto).setTurbo(false);
+                    checkTurbo = 1;
                 } else {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException ex) {
+                checkTurbo = 0;
                 JOptionPane.showMessageDialog(null, "Four by four must be true or false", "Alert", JOptionPane.ERROR_MESSAGE);
             }
 
             //throws error is the cost is less than 0
             //sets the bought cost
             try {
-                if(Double.parseDouble(txtCost.getText()) < 0) {
+                if(txtCost.getText() == null) {
                     throw new IllegalArgumentException();
                 }
                 auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
 
             }catch (IllegalArgumentException e2) {
-                JOptionPane.showMessageDialog(null, "Price cannot be negative", "Alert", JOptionPane.ERROR_MESSAGE);
+                auto.setBoughtCost(-1);
+                JOptionPane.showMessageDialog(null, "Price cannot be negative. Price cannot be blank", "Alert", JOptionPane.ERROR_MESSAGE);
             }
         }
-
-//        if(auto.getAutoName() != null && auto.getTrim() != null && ((Truck) auto).isFourByFour() || !((Truck) auto).isFourByFour() && auto.getBoughtCost() >= 0) {
-//            dispose();
-//        }
         dispose();
     }
 
@@ -180,6 +203,24 @@ public class BoughtCarDialog extends JDialog implements ActionListener {
      **************************************************************/
     public int getCloseStatus(){
         return closeStatus;
+    }
+
+    /**************************************************************
+     Getter method to get if the turbo input is valid
+
+     @return an int representing valid or non valid input
+     **************************************************************/
+    public int getCheckTurbo() {
+        return checkTurbo;
+    }
+
+    /**************************************************************
+     Setter method to see if the turbo input is valid
+
+     @param n int - represents the valid or non valid input
+     **************************************************************/
+    public void setCheckTurbo(int n) {
+        checkTurbo = n;
     }
 }
 

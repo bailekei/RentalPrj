@@ -11,14 +11,22 @@ import java.util.GregorianCalendar;
 
 public class SoldOnDialog extends JDialog implements ActionListener {
 
+    //JTextFields
     private JTextField txtName;
     private JTextField txtDate;
     private JTextField txtCost;
 
+    //JButtons
     private JButton okButton;
     private JButton cancelButton;
+
+    /**checks if the dialog is closed */
     private int closeStatus;
+
+    /** instance variahble for auto class */
     private Auto auto;
+
+    //integers set to OK and Cancel
     static final int OK = 0;
     static final int CANCEL = 1;
 
@@ -105,6 +113,7 @@ public class SoldOnDialog extends JDialog implements ActionListener {
 
             auto.setSoldOn(temp);
 
+            //setting the name of the buyer
             try {
                 if(txtName.getText().equalsIgnoreCase("")) {
                     throw new IllegalArgumentException();
@@ -115,14 +124,17 @@ public class SoldOnDialog extends JDialog implements ActionListener {
                 JOptionPane.showMessageDialog(null, "Please enter name of buyer", "Alert", JOptionPane.ERROR_MESSAGE);
             }
 
+
+            //setting the sold price
             try {
-                if(Double.parseDouble(txtCost.getText()) < 0) {
+                if(txtCost.getText() == null) {
                     throw new IllegalArgumentException();
                 }
                 auto.setSoldPrice(Double.parseDouble(txtCost.getText()));
 
             }catch (IllegalArgumentException e2) {
-                JOptionPane.showMessageDialog(null, "Price cannot be negative", "Alert", JOptionPane.ERROR_MESSAGE);
+                auto.setSoldPrice(-1);
+                JOptionPane.showMessageDialog(null, "Sold price cannot be blank", "Alert", JOptionPane.ERROR_MESSAGE);
             }
 
         }
@@ -140,5 +152,6 @@ public class SoldOnDialog extends JDialog implements ActionListener {
     public int getCloseStatus(){
         return closeStatus;
     }
+
 
 }

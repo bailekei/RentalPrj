@@ -1,5 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.AbstractTableModel;
 import java.io.*;
 import java.text.DateFormat;
@@ -10,7 +9,8 @@ import java.util.stream.Collectors;
 
 /***********************************************************************************************************************
  * CIS 162 Project 3
- * ListEngine class that extendds AbstractTableModel and implements TableModel
+ * ListEngine class that extends AbstractTableModel and implements TableModel
+ * Helper class in retrieving data from the auto list to display in the table
  *
  * @author Keilani Bailey and Shayla Hinkley
  * @version Project 3: October 20th, 2019
@@ -87,7 +87,6 @@ public class ListEngine extends AbstractTableModel {
      *Method that removes an auto from a chosen index
      *
      * @param i int - the index that the user wants to remove the auto from
-     * @return Auto
      ****************************************************************************************************************/
     public void remove(int i) {
 
@@ -343,8 +342,7 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
-     * The following code is half baked code. It should help you
-     * understand how to save to a text file.
+     * Method for saving data as a text file
      *
      * @param filename Name of the file where the data is being loaded from
      ****************************************************************************************************************/
@@ -353,10 +351,7 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
-     * The following code is half baked code. It should help you
-     * understand how to load to a text file.  THis code does NOT
-     * function correctly but, should give you a great start to
-     * your code.
+     * Method for laading the data as a text file
      *
      * @param filename Name of the file where the data is being stored in
      *****************************************************************************************************************/
@@ -438,12 +433,12 @@ public class ListEngine extends AbstractTableModel {
             temp6.setTime(d6);
 
 
-            Car Car1 = new Car(temp3, "Outback", "Buyer1", "LX", false);
-            Car Car2 = new Car(temp2, "Chevy", "Buyer2", "EX", false);
-            Car Car3 = new Car(temp6, "Focus", "Buyer3", "EX", true);
-            Truck Truck1 = new Truck(temp4, "F150", "BuyerA", "LX", false);
-            Truck Truck2 = new Truck(temp1, "F250", "BuyerB", "LX", false);
-            Truck Truck3 = new Truck(temp5, "F350", "BuyerC", "EX", true);
+            Car Car1 = new Car(temp3, "Outback", null, "LX", false);
+            Car Car2 = new Car(temp2, "Chevy", null, "EX", false);
+            Car Car3 = new Car(temp6, "Focus", null, "EX", true);
+            Truck Truck1 = new Truck(temp4, "F150", null, "LX", false);
+            Truck Truck2 = new Truck(temp1, "F250", null, "LX", false);
+            Truck Truck3 = new Truck(temp5, "F350", null, "EX", true);
 
             add(Car1);
             add(Car2);
@@ -457,7 +452,7 @@ public class ListEngine extends AbstractTableModel {
     }
 
     /****************************************************************************************************************
-     *Method that changes the display mode of the GUI
+     *Method that changes the display mode of the GUI and sorts the lists accordingly
      *
      * @param view int - the number of the display screen
      ****************************************************************************************************************/
@@ -538,32 +533,11 @@ public class ListEngine extends AbstractTableModel {
         float diffInDays = (diffinM / (1000 * 60 * 60 * 24));
 
         int numOfDays = (int) Math.abs(diffInDays);
+
         //if the number of days is greater than or equal to 90 temp date comes after
         if(numOfDays >= 90 && tempDate.after(compareDate)) {
             return numOfDays;
         }
         return -1;
-
-
-//        GregorianCalendar todayDate1 = new GregorianCalendar();
-//        todayDate1.setTime(todayDate2);
-//
-//        //calculating the difference in time in days
-//        long diffInM = todayDate - compareDate.getTimeInMillis();
-//        long diffInDays = (diffInM / (1000 * 60 * 60 * 24));
-//
-//
-//        if(diffInDays >= 90 && todayDate1.after(compareDate)) {
-//            return diffInDays;
-//        }
-//        else {
-//            return -1;
-//        }
-
-//        int daysBetween = 0;
-//        SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyy");
-//        try {
-//            Date
-//        }
     }
 }

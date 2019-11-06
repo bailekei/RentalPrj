@@ -11,16 +11,30 @@ import java.util.GregorianCalendar;
 
 public class BoughtTruckDialog extends JDialog implements ActionListener {
 
+    //JTextFields
     private JTextField txtName;
     private JTextField txtDate;
     private JTextField txtTrimPackage;
     private JTextField txtFourbyFour;
     private JTextField txtCost;
+
+    //JButtons
     private JButton okButton;
     private JButton cancelButton;
+
+    /** ComboBox string at the top of the dialog box*/
     private JComboBox<String> combobox;
+
+    /** helper instance variable in checking four by four */
+    private int checkFourbyFour;
+
+    /** checks the close status of the dialog */
     private int closeStatus;
+
+    /** instance variable for auto class */
     private Auto auto;
+
+    //integers set to OK and Cancel
     static final int OK = 0;
     static final int CANCEL = 1;
 
@@ -154,31 +168,31 @@ public class BoughtTruckDialog extends JDialog implements ActionListener {
             try {
                 if (txtFourbyFour.getText().equalsIgnoreCase("true")) {
                     ((Truck) auto).setFourByFour(true);
+                    checkFourbyFour = 1;
                 } else if (txtFourbyFour.getText().equalsIgnoreCase("false")) {
                     ((Truck) auto).setFourByFour(false);
+                   checkFourbyFour = 1;
                 } else {
                     throw new IllegalArgumentException();
                 }
             } catch (IllegalArgumentException ex) {
+                checkFourbyFour = 0;
                 JOptionPane.showMessageDialog(null, "Four by four must be true or false", "Alert", JOptionPane.ERROR_MESSAGE);
             }
 
             //throws error is the cost is less than 0
             //sets the bought cost
             try {
-                if(Double.parseDouble(txtCost.getText()) < 0) {
+                if(txtCost.getText() ==  null) {
                     throw new IllegalArgumentException();
                 }
                 auto.setBoughtCost(Double.parseDouble(txtCost.getText()));
 
             }catch (IllegalArgumentException e2) {
-                JOptionPane.showMessageDialog(null, "Price cannot be negative", "Alert", JOptionPane.ERROR_MESSAGE);
+                auto.setBoughtCost(-1);
+                JOptionPane.showMessageDialog(null, "Please enter price. Price cannot be negative.", "Alert", JOptionPane.ERROR_MESSAGE);
             }
         }
-
-//        if(auto.getAutoName() != null && auto.getTrim() != null && ((Truck) auto).isFourByFour() || !((Truck) auto).isFourByFour() && auto.getBoughtCost() >= 0) {
-//            dispose();
-//        }
         dispose();
     }
 
@@ -191,6 +205,24 @@ public class BoughtTruckDialog extends JDialog implements ActionListener {
     public int getCloseStatus(){
         return closeStatus;
     }
+
+    /**************************************************************
+     Getter method to get if the Four by Four input is valid
+
+     @return an int representing valid or non valid input
+     **************************************************************/
+     public int getCheckFourbyFour() {
+        return checkFourbyFour;
+     }
+
+    /**************************************************************
+     Setter method to see if the four by four input is valid
+
+     @param n int - represents the valid or non valid input
+     **************************************************************/
+     public void setCheckFourByFour(int n) {
+        checkFourbyFour = n;
+     }
 }
 
 

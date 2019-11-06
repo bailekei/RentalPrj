@@ -2,11 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.table.DefaultTableCellRenderer;
+
 /***********************************************************************************************************************
  * CIS 162 Project 3
  * GUICarDealer extends JFrame and implements ActionListener
- * Maintains the GUI1024 for the red box rental store
+ * Maintains the GUI of the project
  *
  * @author Keilani Bailey and Shayla Hinkley
  * @version Project 3: November 4th, 2019
@@ -34,7 +34,6 @@ public class GUICarDealer extends JFrame implements ActionListener
     private JMenuItem soldScreen;
     private JMenuItem overdueScreen;
 
-
     private JMenuItem soldItem;
 
     /** Holds the list engine */
@@ -43,9 +42,6 @@ public class GUICarDealer extends JFrame implements ActionListener
 
     /** Holds JListArea */
     private JTable jListArea;
-
-    /** Scroll pane */
-    private JScrollPane scrollList;
 
     /*****************************************************************
      *
@@ -111,8 +107,6 @@ public class GUICarDealer extends JFrame implements ActionListener
         DList = new ListEngine();
         DList.displayMode(1);
         jListArea = new JTable(DList);
-
-        //jListArea.setDefaultRenderer(Object.class, new BorderColorRenderer());
         JScrollPane scrollList = new JScrollPane(jListArea);
         scrollList.setPreferredSize(new Dimension(800,300));
         panel.add(scrollList);
@@ -162,30 +156,48 @@ public class GUICarDealer extends JFrame implements ActionListener
             }
         }
 
-        //MenuBar options
-        if(e.getSource() == boughtTruckItem){
+
+        //if the button is bought truck button
+        if(e.getSource() == boughtTruckItem) {
             Auto auto = new Truck();
             BoughtTruckDialog dialog = new BoughtTruckDialog(this, auto);
-            if(dialog.getCloseStatus() == BoughtTruckDialog.OK){
+            if(dialog.getCloseStatus() == BoughtTruckDialog.OK) {
 
-                //only adds the auto to the list if these qualities are met
-                if(auto.getBoughtCost() >= 0.00 && auto.getAutoName() != null && auto.getTrim() != null) {
+                //if valid inputs add to the list
+                if(auto.getBoughtCost() > -1 && auto.getAutoName() != null && auto.getTrim() != null && dialog.getCheckFourbyFour() == 1) {
                     DList.add(auto);
                 }
 
-                //error message to try again because incorrect fields
+                //if invalid inputs do not add to list and throw error message
                 else {
+                    auto.setBoughtCost(-1);
+                    auto.setTrim(null);
+                    auto.setAutoName(null);
+                    dialog.setCheckFourByFour(0);
                     JOptionPane.showMessageDialog(null, "Incorrect fields found. Please try again.", "Alert", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
 
+        //if the button pressed is bought car
         if(e.getSource() == boughtCarItem) {
-
             Auto auto = new Car();
             BoughtCarDialog dialog = new BoughtCarDialog(this, auto);
             if(dialog.getCloseStatus() == BoughtCarDialog.OK) {
-                DList.add(auto);
+
+                //if the inputs are valid then add the auto to the list
+                if(auto.getBoughtCost() > -1 && auto.getAutoName() != null && auto.getTrim() != null && dialog.getCheckTurbo() == 1) {
+                    DList.add(auto);
+                }
+
+                //if the inputs are invalid then do not add auto to list and throw error
+                else {
+                    auto.setBoughtCost(-1);
+                    auto.setTrim(null);
+                    auto.setAutoName(null);
+                    dialog.setCheckTurbo(0);
+                    JOptionPane.showMessageDialog(null, "Incorrect fields found. Please try again.", "Alert", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
 
@@ -196,12 +208,19 @@ public class GUICarDealer extends JFrame implements ActionListener
                 Auto unit = DList.get(index);
                 SoldOnDialog dialog = new SoldOnDialog(this, unit);
                 if(dialog.getCloseStatus() == SoldOnDialog.OK) {
-                   if(unit.getSoldPrice() >= 0 && !unit.getNameOfBuyer().equalsIgnoreCase("") && unit.getSoldOn() != null) {
+
+                    //if the inputs are valid then remove the auto from the bought screen and move to the sold screen
+                    if(unit.getSoldPrice() > -1 && unit.getNameOfBuyer() != null && unit.getSoldOn() != null) {
                        DList.remove(index);
                        JOptionPane.showMessageDialog(null, " For the sales person, be sure to thank " + unit.getNameOfBuyer() +
                                " \nfor buying the " + unit.getAutoName() + ", the price difference was:\t " + unit.getSoldBoughtCost(unit.getSoldPrice()) + " dollars.");
-                   } else {
-                       JOptionPane.showMessageDialog(null, "Incorrect fields found. Please try again.", "Alert", JOptionPane.ERROR_MESSAGE);
+                   }
+                    //if the inputs invalid then do not remove the auto from the bought screen and do not move to sold screen
+                    else {
+                       unit.setSoldOn(null);
+                       unit.setSoldPrice(-1);
+                       unit.setNameOfBuyer(null);
+                       JOptionPane.showMessageDialog(null, "Make sure all fields are valid. Please try again.", "Alert", JOptionPane.ERROR_MESSAGE);
                    }
                 }
             } catch(IndexOutOfBoundsException ex) {
