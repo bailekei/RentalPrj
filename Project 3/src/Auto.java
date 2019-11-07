@@ -205,7 +205,7 @@ public abstract class Auto implements Serializable {
 
        boughtDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getBoughtOn().getTime());
 
-       String soldDate = "";
+       String soldDate = null;
 
        soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getSoldOn().getTime());
 
