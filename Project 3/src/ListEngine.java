@@ -353,7 +353,7 @@ public class ListEngine extends AbstractTableModel {
      ****************************************************************************************************************/
     public boolean saveAsText(String filename) {
        try {
-           FileWriter writer = new FileWriter("listengine.txt");
+           FileWriter writer = new FileWriter(filename);
 
            for(Auto auto: listAutos) {
                writer.write(auto.toString() + "\n");
