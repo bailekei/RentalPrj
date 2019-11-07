@@ -589,9 +589,14 @@ public class ListEngine extends AbstractTableModel {
             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             GregorianCalendar temp = new GregorianCalendar();
             Date d = null;
-            d = df.parse(values[5]);
-            temp.setTime(d);
-            car.setSoldOn(temp);
+            if (values[5] != "null"){
+                d = df.parse(values[5]);
+                temp.setTime(d);
+                car.setSoldOn(temp);
+            } else {
+                car.setSoldOn(null);
+            }
+
         } catch (ParseException ex) {
             ex.printStackTrace();
         }
@@ -630,9 +635,13 @@ public class ListEngine extends AbstractTableModel {
             SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
             GregorianCalendar temp = new GregorianCalendar();
             Date d = null;
-            d = df.parse(values[5]);
-            temp.setTime(d);
-            truck.setSoldOn(temp);
+            if(values[5] != "null") {
+                d = df.parse(values[5]);
+                temp.setTime(d);
+                truck.setSoldOn(temp);
+            } else {
+                truck.setSoldOn(null);
+            }
         } catch (ParseException ex) {
             ex.printStackTrace();
         }

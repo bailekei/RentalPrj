@@ -207,10 +207,16 @@ public abstract class Auto implements Serializable {
 
        String soldDate = null;
 
-       soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getSoldOn().getTime());
 
-        return (getAutoName() + "," + boughtDate +"," + getBoughtCost() + "," + getTrim()
-                + "," + soldDate + "," + getNameOfBuyer() + "," + getSoldPrice());
+
+       if(getSoldOn() != null) {
+           soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getBoughtOn().getTime());
+           return (getAutoName() + "," + boughtDate + "," + getBoughtCost() + "," + getTrim()
+                   + "," + soldDate + "," + getNameOfBuyer() + "," + getSoldPrice());
+       } else {
+           return (getAutoName() + "," + boughtDate + "," + getBoughtCost() + "," + getTrim()
+                   + "," + "null" + "," + getNameOfBuyer() + "," + getSoldPrice());
+       }
 
 
     }

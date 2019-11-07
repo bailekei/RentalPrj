@@ -82,9 +82,16 @@ public class Truck extends Auto {
 
         String soldDate = null;
 
-        soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getSoldOn().getTime());
-        return ("Truck," + getAutoName() + "," + boughtDate +"," + getBoughtCost() + "," + getTrim()
-                + "," + soldDate + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isFourByFour());
+
+
+        if(getSoldOn() != null) {
+            soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getBoughtOn().getTime());
+            return ("Truck," + getAutoName() + "," + boughtDate + "," + getBoughtCost() + "," + getTrim()
+                    + "," + soldDate + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isFourByFour());
+        } else {
+            return ("Truck," + getAutoName() + "," + boughtDate + "," + getBoughtCost() + "," + getTrim()
+                    + "," + "null" + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isFourByFour());
+        }
 
 
 
