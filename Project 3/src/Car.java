@@ -102,7 +102,7 @@ public class Car extends Auto {
 
         String soldDate = "";
 
-        soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getBoughtOn().getTime());
+        soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getSoldOn().getTime());
         return ("Car," + getAutoName() + "," + boughtDate +"," + getBoughtCost() + "," + getTrim()
                 + "," + soldDate + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isTurbo());
 
