@@ -1,4 +1,5 @@
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 
 /***********************************************************************************************************************
@@ -93,8 +94,17 @@ public class Car extends Auto {
     @Override
     public String toString() {
 
-        return ("Car," + getAutoName() + "," + getBoughtOn()+"," + getBoughtCost() + "," + getTrim()
-                + "," + getSoldOn() + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isTurbo());
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+
+        String boughtDate = "";
+
+        boughtDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getBoughtOn().getTime());
+
+        String soldDate = "";
+
+        soldDate = DateFormat.getDateInstance(DateFormat.SHORT).format(getBoughtOn().getTime());
+        return ("Car," + getAutoName() + "," + boughtDate +"," + getBoughtCost() + "," + getTrim()
+                + "," + soldDate + "," + getNameOfBuyer() + "," + getSoldPrice() + "," + isTurbo());
 
 
 
