@@ -1,4 +1,6 @@
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.GregorianCalendar;
 /***********************************************************************************************************************
  * CIS 162 Project 3
@@ -196,6 +198,11 @@ public abstract class Auto implements Serializable {
      *Method that prints out a String of the given auto information
      ****************************************************************************************************************/
     public String toString() {
+        SimpleDateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        GregorianCalendar temp = new GregorianCalendar();
+        Date d = null;
+
+//        String boughtDate = String.parseString(getBoughtOn());
 
         return (getAutoName() + "," + getBoughtOn()+"," + getBoughtCost() + "," + getTrim()
                 + "," + getSoldOn() + "," + getNameOfBuyer() + "," + getSoldPrice());
